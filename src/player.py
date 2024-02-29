@@ -4,13 +4,13 @@ from pygame.math import Vector2
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=1, max_acceleration=4.0):
+    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=2, max_acceleration=4.0):
         pygame.sprite.Sprite.__init__(self, self.containers)
 
         # Assigning all the player variable and initial setup
         self.image = pygame.image.load(image)
-        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.08), 
-                                                        int(self.image.get_height() *  0.08)))
+        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.05), 
+                                                        int(self.image.get_height() *  0.05)))
         self.position = Vector2(x, y)
         self.velocity = Vector2(0.0, 0.0)
         self.angle = angle
@@ -25,9 +25,14 @@ class Player(pygame.sprite.Sprite):
         self.width = 100
         self.height = 50
         self.speed = 5
+
+        self.rotate_speed = 60
+
+        self.bounce_force = 0.5
+
         self.rect = pygame.Rect(x, y, self.width, self.height)
 
-    def update(self, screen,dt):
+    def update(self, screen,dt, track_border):
         # This function is called once a frame
         
         
@@ -48,6 +53,10 @@ class Player(pygame.sprite.Sprite):
         # Drawing the player
         rotated = pygame.transform.rotate(self.image, self.angle)
         rect = rotated.get_rect(center=self.image.get_rect(topleft = self.position).center)
+
+        if self.collide(track_border) != None:
+            self.bounce()
+
         screen.blit(rotated, rect)
 
     def move(self, dt):
@@ -63,11 +72,11 @@ class Player(pygame.sprite.Sprite):
                 self.acceleration = -self.brake_deceleration
             else:
                 self.acceleration -= 1 * dt
-        # elif pressed[pygame.K_SPACE]:
-        #     if abs(self.velocity.x) > dt * self.brake_deceleration:
-        #         self.acceleration = -copysign(self.brake_deceleration, self.velocity.x)
-        #     else:
-        #         self.acceleration = -self.velocity.x / dt
+        elif pressed[pygame.K_SPACE]:
+            if abs(self.velocity.x) > dt * self.brake_deceleration:
+                self.acceleration = -copysign(self.brake_deceleration, self.velocity.x)
+            else:
+                self.acceleration = -self.velocity.x / dt
         else:
             if abs(self.velocity.x) > dt * self.free_deceleration:
                 self.acceleration = -copysign(self.free_deceleration, self.velocity.x)
@@ -77,9 +86,19 @@ class Player(pygame.sprite.Sprite):
         self.acceleration = max(-self.max_acceleration, min(self.acceleration, self.max_acceleration))
 
         if pressed[pygame.K_d]:
-            self.steering -= 30 * dt
+            self.steering -= self.rotate_speed * dt
         elif pressed[pygame.K_a]:
-            self.steering += 30 * dt
+            self.steering += self.rotate_speed * dt
         else:
             self.steering = 0
         self.steering = max(-self.max_steering, min(self.steering, self.max_steering))
+
+    def bounce(self):
+        self.velocity = -self.velocity * self.bounce_force
+
+    def collide(self, mask, x=0, y=0):
+        car_mask = pygame.mask.from_surface(self.image)
+        offset = (int(self.position.x - x), int(self.position.y - y))
+        poi = mask.overlap(car_mask, offset)
+        return poi
+

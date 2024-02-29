@@ -4,8 +4,8 @@ from player import Player
 
 # Setting up pygame and window
 pygame.init()
-screen_height = 750
-screen_width = 1100
+screen_height = 800
+screen_width = 1400
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 
@@ -17,6 +17,10 @@ playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
 player = Player(screen_width / 2, screen_height / 2, "lightning-mcqueen_disney_gallery_5d80191aeae5a.png")
 
+track = pygame.image.load("assets/imgs/track.png")
+track_border = pygame.image.load("assets/imgs/track-border.png")
+track_border_mask = pygame.mask.from_surface(track_border)
+
 # Game loop
 while running:
     dt = 0.5
@@ -26,8 +30,8 @@ while running:
 
     # Drawing the background
     screen.fill((0, 0, 0))
-
-    player.update(screen,dt)
+    screen.blit(track, (0,0))
+    player.update(screen,dt, track_border_mask)
 
     # Updating screen
     clock.tick(60)
