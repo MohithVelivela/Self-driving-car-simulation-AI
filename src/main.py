@@ -19,20 +19,20 @@ player = Player(screen_width / 2, screen_height / 2, "lightning-mcqueen_disney_g
 
 # Game loop
 while running:
-
+    dt = clock.tick(60) / 1000
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
     # Drawing the background
     screen.fill((0, 0, 0))
-    rotated = pygame.transform.rotate(car_image, car.angle)
+    rotated = pygame.transform.rotate(player.image, player.angle)
     rect = rotated.get_rect()
-    self.screen.blit(rotated, car.position * ppu - (rect.width / 2, rect.height / 2))
+    screen.blit(rotated, player.position * 32 - (rect.width / 2, rect.height / 2))
     pygame.display.flip()
 
 
-    player.update(screen)
+    player.update(screen,dt)
 
     # Updating screen
     clock.tick(60)
