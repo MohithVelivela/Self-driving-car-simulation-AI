@@ -24,11 +24,11 @@ class Player(pygame.sprite.Sprite):
         self.width = 100
         self.height = 50
         self.speed = 5
-        self.rect = pygame.Rect(x, y, self.width(), self.height())
+        self.rect = pygame.Rect(x, y, self.width, self.height)
 
-    def update(self, screen):
+    def update(self, screen,dt):
         # This function is called once a frame
-        dt = pygame.time.Clock().get_time() / 1000
+        
         
         self.velocity += (self.acceleration * dt, 0)
         self.velocity.x = max(-self.max_velocity, min(self.velocity.x, self.max_velocity))
@@ -42,7 +42,7 @@ class Player(pygame.sprite.Sprite):
         self.position += self.velocity.rotate(-self.angle) * dt
         self.angle += degrees(angular_velocity) * dt
 
-        self.move()
+        self.move(dt)
 
         # Checking if the player is outside the screen or dies
         if self.rect.top > screen.get_height() + 100 or self.rect.left < 0:
@@ -54,16 +54,15 @@ class Player(pygame.sprite.Sprite):
         # Drawing the player
         screen.blit(self.image, self.rect)
 
-    def move(self):
-        dt = pygame.time.Clock().get_time() / 1000
+    def move(self, dt):
         pressed = pygame.key.get_pressed()
 
-        if pressed[pygame.K_w]:
+        if pressed[pygame.K_UP]:
             if self.velocity.x < 0:
                 self.acceleration = self.brake_deceleration
             else:
                 self.acceleration += 1 * dt
-        elif pressed[pygame.K_s]:
+        elif pressed[pygame.K_DOWN]:
             if self.velocity.x > 0:
                 self.acceleration = -self.brake_deceleration
             else:
@@ -81,9 +80,9 @@ class Player(pygame.sprite.Sprite):
                     self.acceleration = -self.velocity.x / dt
         self.acceleration = max(-self.max_acceleration, min(self.acceleration, self.max_acceleration))
 
-        if pressed[pygame.K_d]:
+        if pressed[pygame.K_RIGHT]:
             self.steering -= 30 * dt
-        elif pressed[pygame.K_a]:
+        elif pressed[pygame.K_LEFT]:
             self.steering += 30 * dt
         else:
             self.steering = 0
