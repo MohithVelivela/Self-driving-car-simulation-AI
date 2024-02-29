@@ -43,10 +43,7 @@ class Player(pygame.sprite.Sprite):
             turning_radius = self.length / sin(radians(self.steering))
             angular_velocity = self.velocity.x / turning_radius
         else:
-            angular_velocity = 0
-
-        self.position += self.velocity.rotate(-self.angle) * dt
-        self.angle += degrees(angular_velocity) * dt
+            angular_velocity = 0    
 
         self.move(dt)
 
@@ -56,6 +53,9 @@ class Player(pygame.sprite.Sprite):
 
         if self.collide(track_border) != None:
             self.bounce()
+
+        self.position += self.velocity.rotate(-self.angle) * dt
+        self.angle += degrees(angular_velocity) * dt
 
         screen.blit(rotated, rect)
 
@@ -94,7 +94,10 @@ class Player(pygame.sprite.Sprite):
         self.steering = max(-self.max_steering, min(self.steering, self.max_steering))
 
     def bounce(self):
-        self.velocity = -self.velocity * self.bounce_force
+        if False:
+            self.velocity = Vector2(0,0)
+        else:
+            self.velocity = -self.velocity
 
     def collide(self, mask, x=0, y=0):
         car_mask = pygame.mask.from_surface(self.image)
