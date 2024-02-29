@@ -26,6 +26,10 @@ while running:
 
     # Drawing the background
     screen.fill((0, 0, 0))
+    rotated = pygame.transform.rotate(car_image, car.angle)
+    rect = rotated.get_rect()
+    self.screen.blit(rotated, car.position * ppu - (rect.width / 2, rect.height / 2))
+    pygame.display.flip()
 
 
     player.update(screen)
