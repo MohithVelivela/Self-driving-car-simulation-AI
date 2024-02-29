@@ -47,8 +47,8 @@ class Player(pygame.sprite.Sprite):
 
         # Drawing the player
         rotated = pygame.transform.rotate(self.image, self.angle)
-        rect = rotated.get_rect()
-        screen.blit(rotated, self.position)
+        rect = rotated.get_rect(center=self.image.get_rect(topleft = self.position).center)
+        screen.blit(rotated, rect)
 
     def move(self, dt):
         pressed = pygame.key.get_pressed()
