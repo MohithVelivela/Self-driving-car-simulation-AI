@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.vel = (0,0)
         self.speed = 5
 
-        self.rect = pygame.Rect(x, y, self.width(), self.height())
+        self.rect = pygame.Rect(x, y, self.width, self.height)
 
     def update(self, screen):
         # This function is called once a frame
