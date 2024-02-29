@@ -19,7 +19,7 @@ player = Player(screen_width / 2, screen_height / 2, "lightning-mcqueen_disney_g
 
 # Game loop
 while running:
-    dt = clock.tick(60) / 1000
+    dt = 0.5
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -28,7 +28,7 @@ while running:
     screen.fill((0, 0, 0))
     rotated = pygame.transform.rotate(player.image, player.angle)
     rect = rotated.get_rect()
-    screen.blit(rotated, player.position * 32 - (rect.width / 2, rect.height / 2))
+    screen.blit(rotated, player.position)
     pygame.display.flip()
 
 

@@ -4,7 +4,7 @@ from pygame.math import Vector2
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=30, max_acceleration=5.0):
+    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=1, max_acceleration=4.0):
         pygame.sprite.Sprite.__init__(self, self.containers)
 
         # Assigning all the player variable and initial setup
@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.length = length
         self.max_acceleration = max_acceleration
         self.max_steering = max_steering
-        self.max_velocity = 20
+        self.max_velocity = 15
         self.brake_deceleration = 10
         self.free_deceleration = 2
         self.acceleration = 0.0
@@ -44,15 +44,8 @@ class Player(pygame.sprite.Sprite):
 
         self.move(dt)
 
-        # Checking if the player is outside the screen or dies
-        if self.rect.top > screen.get_height() + 100 or self.rect.left < 0:
-            pass
-
-        # temp variable to see if grounded
-        moved_hitbox = self.rect
-
         # Drawing the player
-        screen.blit(self.image, self.rect)
+        # screen.blit(self.image, self.rect)
 
     def move(self, dt):
         pressed = pygame.key.get_pressed()
