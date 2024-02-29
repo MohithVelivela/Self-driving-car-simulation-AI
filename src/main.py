@@ -1,4 +1,6 @@
 import pygame
+from player import Player
+
 
 # Setting up pygame and window
 pygame.init()
@@ -11,9 +13,9 @@ clock = pygame.time.Clock()
 
 running = True
 
-player_x = 100
-player_y = 100
-player_speed = 5
+playerGroup = pygame.sprite.Group()
+Player.containers = playerGroup
+player = Player(screen_width / 2, screen_height / 2)
 
 # Game loop
 while running:
@@ -24,18 +26,9 @@ while running:
 
     # Drawing the background
     screen.fill((0, 0, 0))
-    
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        player_y -= player_speed
-    if keys[pygame.K_s]:
-        player_y += player_speed
-    if keys[pygame.K_a]:
-        player_x -= player_speed
-    if keys[pygame.K_d]:
-        player_x += player_speed
 
-    pygame.draw.rect(screen, (255, 0, 0), (player_x, player_y , 100, 50))
+
+    player.update(screen)
 
     # Updating screen
     clock.tick(60)
