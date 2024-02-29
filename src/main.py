@@ -15,7 +15,7 @@ running = True
 
 playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
-player = Player(screen_width / 2, screen_height / 2, "src\lightning-mcqueen_disney_gallery_5d80191aeae5a.png")
+player = Player(screen_width / 2, screen_height / 2, "lightning-mcqueen_disney_gallery_5d80191aeae5a.png")
 
 # Game loop
 while running:
