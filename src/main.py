@@ -26,17 +26,12 @@ while running:
 
     # Drawing the background
     screen.fill((0, 0, 0))
-    rotated = pygame.transform.rotate(player.image, player.angle)
-    rect = rotated.get_rect()
-    screen.blit(rotated, player.position)
-    pygame.display.flip()
-
 
     player.update(screen,dt)
 
     # Updating screen
     clock.tick(60)
-    pygame.display.update()
+    pygame.display.flip()
     pygame.display.set_caption(f'Current FPS: {str(clock.get_fps())}')
 
 pygame.quit()

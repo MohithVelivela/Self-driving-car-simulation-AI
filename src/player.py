@@ -9,7 +9,8 @@ class Player(pygame.sprite.Sprite):
 
         # Assigning all the player variable and initial setup
         self.image = pygame.image.load(image)
-        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.1),int(self.image.get_height() *  0.1)))
+        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.08), 
+                                                        int(self.image.get_height() *  0.08)))
         self.position = Vector2(x, y)
         self.velocity = Vector2(0.0, 0.0)
         self.angle = angle
@@ -45,26 +46,28 @@ class Player(pygame.sprite.Sprite):
         self.move(dt)
 
         # Drawing the player
-        # screen.blit(self.image, self.rect)
+        rotated = pygame.transform.rotate(self.image, self.angle)
+        rect = rotated.get_rect()
+        screen.blit(rotated, self.position)
 
     def move(self, dt):
         pressed = pygame.key.get_pressed()
 
-        if pressed[pygame.K_UP]:
+        if pressed[pygame.K_w]:
             if self.velocity.x < 0:
                 self.acceleration = self.brake_deceleration
             else:
                 self.acceleration += 1 * dt
-        elif pressed[pygame.K_DOWN]:
+        elif pressed[pygame.K_s]:
             if self.velocity.x > 0:
                 self.acceleration = -self.brake_deceleration
             else:
                 self.acceleration -= 1 * dt
-        elif pressed[pygame.K_SPACE]:
-            if abs(self.velocity.x) > dt * self.brake_deceleration:
-                self.acceleration = -copysign(self.brake_deceleration, self.velocity.x)
-            else:
-                self.acceleration = -self.velocity.x / dt
+        # elif pressed[pygame.K_SPACE]:
+        #     if abs(self.velocity.x) > dt * self.brake_deceleration:
+        #         self.acceleration = -copysign(self.brake_deceleration, self.velocity.x)
+        #     else:
+        #         self.acceleration = -self.velocity.x / dt
         else:
             if abs(self.velocity.x) > dt * self.free_deceleration:
                 self.acceleration = -copysign(self.free_deceleration, self.velocity.x)
@@ -73,9 +76,9 @@ class Player(pygame.sprite.Sprite):
                     self.acceleration = -self.velocity.x / dt
         self.acceleration = max(-self.max_acceleration, min(self.acceleration, self.max_acceleration))
 
-        if pressed[pygame.K_RIGHT]:
+        if pressed[pygame.K_d]:
             self.steering -= 30 * dt
-        elif pressed[pygame.K_LEFT]:
+        elif pressed[pygame.K_a]:
             self.steering += 30 * dt
         else:
             self.steering = 0
