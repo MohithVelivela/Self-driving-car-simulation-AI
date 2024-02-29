@@ -11,8 +11,9 @@ clock = pygame.time.Clock()
 
 running = True
 
-# Game variables
-gravity = 1
+player_x = 100
+player_y = 100
+player_speed = 5
 
 # Game loop
 while running:
@@ -23,6 +24,18 @@ while running:
 
     # Drawing the background
     screen.fill((0, 0, 0))
+    
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_w]:
+        player_y -= player_speed
+    if keys[pygame.K_s]:
+        player_y += player_speed
+    if keys[pygame.K_a]:
+        player_x -= player_speed
+    if keys[pygame.K_d]:
+        player_x += player_speed
+
+    pygame.draw.rect(screen, (255, 0, 0), (player_x, player_y , 100, 50))
 
     # Updating screen
     clock.tick(60)
