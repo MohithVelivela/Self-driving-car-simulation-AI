@@ -59,32 +59,32 @@ class Player(pygame.sprite.Sprite):
         pressed = pygame.key.get_pressed()
 
         if pressed[pygame.K_w]:
-            if car.velocity.x < 0:
-                car.acceleration = car.brake_deceleration
+            if self.velocity.x < 0:
+                self.acceleration = self.brake_deceleration
             else:
-                car.acceleration += 1 * dt
+                self.acceleration += 1 * dt
         elif pressed[pygame.K_s]:
-            if car.velocity.x > 0:
-                car.acceleration = -car.brake_deceleration
+            if self.velocity.x > 0:
+                self.acceleration = -self.brake_deceleration
             else:
-                car.acceleration -= 1 * dt
+                self.acceleration -= 1 * dt
         elif pressed[pygame.K_SPACE]:
-            if abs(car.velocity.x) > dt * car.brake_deceleration:
-                car.acceleration = -copysign(car.brake_deceleration, car.velocity.x)
+            if abs(self.velocity.x) > dt * self.brake_deceleration:
+                self.acceleration = -copysign(self.brake_deceleration, self.velocity.x)
             else:
-                car.acceleration = -car.velocity.x / dt
+                self.acceleration = -self.velocity.x / dt
         else:
-            if abs(car.velocity.x) > dt * car.free_deceleration:
-                car.acceleration = -copysign(car.free_deceleration, car.velocity.x)
+            if abs(self.velocity.x) > dt * self.free_deceleration:
+                self.acceleration = -copysign(self.free_deceleration, self.velocity.x)
             else:
                 if dt != 0:
-                    car.acceleration = -car.velocity.x / dt
-        car.acceleration = max(-car.max_acceleration, min(car.acceleration, car.max_acceleration))
+                    self.acceleration = -self.velocity.x / dt
+        self.acceleration = max(-self.max_acceleration, min(self.acceleration, self.max_acceleration))
 
         if pressed[pygame.K_d]:
-            car.steering -= 30 * dt
+            self.steering -= 30 * dt
         elif pressed[pygame.K_a]:
-            car.steering += 30 * dt
+            self.steering += 30 * dt
         else:
-            car.steering = 0
-        car.steering = max(-car.max_steering, min(car.steering, car.max_steering))
+            self.steering = 0
+        self.steering = max(-self.max_steering, min(self.steering, self.max_steering))
