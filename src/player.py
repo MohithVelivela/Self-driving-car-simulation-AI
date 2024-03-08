@@ -52,6 +52,7 @@ class Player(pygame.sprite.Sprite):
         rect = rotated.get_rect(center=self.image.get_rect(topleft = self.position).center)
 
         if self.collide(track_border) == None:
+            #TODO Replace with reset to end the game
             self.bounce()
 
         self.position += self.velocity.rotate(-self.angle) * dt
