@@ -4,8 +4,8 @@ from player import Player
 
 # Setting up pygame and window
 pygame.init()
-screen_height = 800
-screen_width = 1400
+screen_height = 1080
+screen_width = 1920
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 
@@ -15,9 +15,9 @@ running = True
 
 playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
-player = Player(screen_width / 2, screen_height / 2, "assets/imgs/car.png")
+player = Player(screen_width / 5, screen_height / 5, "assets/imgs/car.png")
 
-track = pygame.image.load("assets/imgs/circle-track.png")
+track = pygame.image.load("assets/imgs/circle-track.jpg")
 track_border = pygame.image.load("assets/imgs/circle-track-transparent.png")
 track_border_mask = pygame.mask.from_surface(track_border)
 
