@@ -15,7 +15,7 @@ running = True
 
 playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
-player = Player(screen_width / 5, screen_height / 5, "assets/imgs/car.png")
+player = Player(500, 900, "assets/imgs/car_dir_updated.png")
 
 track = pygame.image.load("assets/imgs/circle-track.jpg")
 track_border = pygame.image.load("assets/imgs/circle-track-transparent.png")

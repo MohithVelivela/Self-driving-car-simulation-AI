@@ -1,6 +1,9 @@
 import pygame
 from math import sin, radians, degrees, copysign
 from pygame.math import Vector2
+import time
+
+
 
 class Player(pygame.sprite.Sprite):
 
@@ -25,7 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.width = 100
         self.height = 50
         self.speed = 5
-
+        self.lap = 0
         self.rotate_speed = 60
 
         self.bounce_force = 0.5
@@ -35,7 +38,7 @@ class Player(pygame.sprite.Sprite):
     def update(self, screen,dt, track_border):
         # This function is called once a frame
         
-        
+       
         self.velocity += (self.acceleration * dt, 0)
         self.velocity.x = max(-self.max_velocity, min(self.velocity.x, self.max_velocity))
 
@@ -50,15 +53,25 @@ class Player(pygame.sprite.Sprite):
         # Drawing the player
         rotated = pygame.transform.rotate(self.image, self.angle)
         rect = rotated.get_rect(center=self.image.get_rect(topleft = self.position).center)
-
+	
         if self.collide(track_border) == None:
             #TODO Replace with reset to end the game
-            self.bounce()
+            font = pygame.font.Font(None, 72)
+            self.reset()
+            self.position = Vector2(500, 900)  # Example reset position
+            screen.blit(font.render("Game Over! Better Luck Next time", True, (255, 0, 0)), (600, 500))
+            pygame.display.flip()
+            time.sleep(1)
+            
+            #self.bounce()
 
         self.position += self.velocity.rotate(-self.angle) * dt
         self.angle += degrees(angular_velocity) * dt
 
         screen.blit(rotated, rect)
+        """if self.is_lap_completed():
+            self.lap_counter += 1
+            print("Lap completed. Total laps:", self.lap_counter)"""
 
     def move(self, dt):
         pressed = pygame.key.get_pressed()
@@ -105,4 +118,15 @@ class Player(pygame.sprite.Sprite):
         offset = (int(self.position.x - x), int(self.position.y - y))
         poi = mask.overlap(car_mask, offset)
         return poi
-
+        
+    def reset(self):
+        # Reset player's properties
+        self.velocity = Vector2(0.0, 0.0)
+        self.acceleration = 0.0
+        self.steering = 0.0
+        self.angle = 0.0
+        
+    """def is_lap_completed():
+    	initial_x = 500
+    	
+    	if """
