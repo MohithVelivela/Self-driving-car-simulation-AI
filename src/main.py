@@ -17,8 +17,8 @@ playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
 player = Player(screen_width / 2, screen_height / 2, "assets/imgs/car.png")
 
-track = pygame.image.load("assets/imgs/track.png")
-track_border = pygame.image.load("assets/imgs/track-border.png")
+track = pygame.image.load("assets/imgs/circle-track.png")
+track_border = pygame.image.load("assets/imgs/circle-track-transparent.png")
 track_border_mask = pygame.mask.from_surface(track_border)
 
 # Game loop
