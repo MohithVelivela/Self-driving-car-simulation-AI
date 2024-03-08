@@ -9,8 +9,8 @@ class Player(pygame.sprite.Sprite):
 
         # Assigning all the player variable and initial setup
         self.image = pygame.image.load(image)
-        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.05), 
-                                                        int(self.image.get_height() *  0.05)))
+        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.2), 
+                                                        int(self.image.get_height() *  0.2)))
         self.position = Vector2(x, y)
         self.velocity = Vector2(0.0, 0.0)
         self.angle = angle
