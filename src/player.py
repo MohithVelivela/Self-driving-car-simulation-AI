@@ -58,7 +58,7 @@ class Player(pygame.sprite.Sprite):
             #TODO Replace with reset to end the game
             font = pygame.font.Font(None, 72)
             self.reset()
-            self.position = Vector2(500, 900)  # Example reset position
+            self.position = Vector2(500, 900)  
             screen.blit(font.render("Game Over! Better Luck Next time", True, (255, 0, 0)), (600, 500))
             pygame.display.flip()
             time.sleep(1)
