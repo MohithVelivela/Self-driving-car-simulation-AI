@@ -125,7 +125,8 @@ class Player(pygame.sprite.Sprite):
         self.acceleration = 0.0
         self.steering = 0.0
         self.angle = 0.0
-        
+    
+    # TODO should add Lap counter    
     """def is_lap_completed():
     	initial_x = 500
     	
