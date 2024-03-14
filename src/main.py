@@ -20,6 +20,7 @@ player = Player(500, 800, "assets/imgs/car_dir_updated.png")
 track = pygame.image.load("assets/imgs/circle-track-border.png")
 track_border = pygame.image.load("assets/imgs/circle-track-border.png")
 track_border_mask = pygame.mask.from_surface(track_border)
+start = pygame.image.load("assets/imgs/start.png")
 
 # Game loop
 while running:
@@ -29,8 +30,12 @@ while running:
             running = False
 
     # Drawing the background
-    screen.fill((0, 0, 0))
+    screen.fill((30, 30, 30))
+    screen.blit(start, (600, 700))
     screen.blit(track, (0,0))
+
+
+    # Player Update
     player.update(screen,dt, track_border ,track_border_mask)
 
     # Updating screen
