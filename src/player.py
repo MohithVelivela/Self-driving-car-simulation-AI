@@ -1,5 +1,6 @@
 import pygame
 from math import sin, radians, degrees, copysign
+import math
 from pygame.math import Vector2
 import time
 
@@ -35,9 +36,30 @@ class Player(pygame.sprite.Sprite):
 
         self.rect = pygame.Rect(x, y, self.width, self.height)
 
-    def update(self, screen,dt, track_border):
+        # RayCast
+        self.raycast = None
+
+    def cast_rays(self, border : pygame.image, offset_angle = 0):
+        length = 0
+
+        x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + offset_angle))) * length)
+        y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + offset_angle))) * length)
+
+        # While We Don't Hit BORDER_COLOR AND length < 300 (just a max) -> go further and further
+        while border.get_at((x, y)).a == 0:
+            length = length + 1
+            x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + offset_angle))) * length)
+            y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + offset_angle))) * length)
+
+        # Calculate Distance To Border And Append To Radars List
+        dist = int(math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2)))
+        self.raycast = ([(x, y), dist])
+
+
+    def update(self, screen,dt, track_border : pygame.image, track_border_mask : pygame.mask):
         # This function is called once a frame
-        
+
+        self.cast_rays(track_border)
        
         self.velocity += (self.acceleration * dt, 0)
         self.velocity.x = max(-self.max_velocity, min(self.velocity.x, self.max_velocity))
@@ -54,7 +76,7 @@ class Player(pygame.sprite.Sprite):
         rotated = pygame.transform.rotate(self.image, self.angle)
         rect = rotated.get_rect(center=self.image.get_rect(topleft = self.position).center)
 	
-        if self.collide(track_border):
+        if self.collide(track_border_mask):
             #TODO Replace with reset to end the game
             font = pygame.font.Font(None, 72)
             self.reset()

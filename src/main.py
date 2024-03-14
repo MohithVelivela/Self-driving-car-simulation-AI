@@ -31,7 +31,7 @@ while running:
     # Drawing the background
     screen.fill((0, 0, 0))
     screen.blit(track, (0,0))
-    player.update(screen,dt, track_border_mask)
+    player.update(screen,dt, track_border ,track_border_mask)
 
     # Updating screen
     clock.tick(60)
