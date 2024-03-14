@@ -13,8 +13,10 @@ class Player(pygame.sprite.Sprite):
 
         # Assigning all the player variable and initial setup
         self.image = pygame.image.load(image)
-        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.2), 
-                                                        int(self.image.get_height() *  0.2)))
+        print(self.image.get_width())
+        self.image = pygame.transform.scale(self.image, (int(self.image.get_width()), 
+                                                        int(self.image.get_height())))
+        print(self.image.get_width())
         self.position = Vector2(x, y)
         self.velocity = Vector2(0.0, 0.0)
         self.angle = angle
@@ -100,7 +102,7 @@ class Player(pygame.sprite.Sprite):
         self.angle += degrees(angular_velocity) * dt
         self.rect = rect
 
-        pygame.draw.rect(screen, (0, 255, 0), self.rect)
+        #pygame.draw.rect(screen, (0, 255, 0), self.rect)
         screen.blit(rotated, self.rect)
 
         self.raycasts.clear()
