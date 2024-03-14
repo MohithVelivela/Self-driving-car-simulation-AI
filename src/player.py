@@ -42,25 +42,33 @@ class Player(pygame.sprite.Sprite):
     def cast_rays(self, border : pygame.image, offset_angle = 0):
         length = 0
 
-        x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + offset_angle))) * length)
-        y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + offset_angle))) * length)
+        x = int(self.rect.center[0] + math.cos(math.radians(360 - (self.angle + offset_angle))) * length)
+        y = int(self.rect.center[1] + math.sin(math.radians(360 - (self.angle + offset_angle))) * length)
 
         # While We Don't Hit BORDER_COLOR AND length < 300 (just a max) -> go further and further
         while border.get_at((x, y)).a == 0:
             length = length + 1
-            x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + offset_angle))) * length)
-            y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + offset_angle))) * length)
+            x = int(self.rect.center[0] + math.cos(math.radians(360 - (self.angle + offset_angle))) * length)
+            y = int(self.rect.center[1] + math.sin(math.radians(360 - (self.angle + offset_angle))) * length)
 
         # Calculate Distance To Border And Append To Radars List
-        dist = int(math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2)))
-        self.raycast = ([(x, y), dist])
+        dist = int(math.sqrt(math.pow(x - self.rect.center[0], 2) + math.pow(y - self.rect.center[1], 2)))
+        self.raycast = [[(x, y), dist]]
 
+    def draw_radar(self, screen):
+        # Optionally Draw All Sensors / Radars
+        for radar in self.raycast:
+            position = radar[0]
+            pygame.draw.line(screen, (0, 255, 0), self.rect.center, position, 1)
+            pygame.draw.circle(screen, (0, 255, 0), position, 5)
 
     def update(self, screen,dt, track_border : pygame.image, track_border_mask : pygame.mask):
         # This function is called once a frame
 
         self.cast_rays(track_border)
-       
+        self.draw_radar(screen)
+        print(self.raycast)
+
         self.velocity += (self.acceleration * dt, 0)
         self.velocity.x = max(-self.max_velocity, min(self.velocity.x, self.max_velocity))
 
@@ -89,8 +97,10 @@ class Player(pygame.sprite.Sprite):
 
         self.position += self.velocity.rotate(-self.angle) * dt
         self.angle += degrees(angular_velocity) * dt
+        self.rect = rect
 
-        screen.blit(rotated, rect)
+        screen.blit(rotated, self.rect)
+
         """if self.is_lap_completed():
             self.lap_counter += 1
             print("Lap completed. Total laps:", self.lap_counter)"""
