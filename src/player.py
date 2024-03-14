@@ -100,6 +100,7 @@ class Player(pygame.sprite.Sprite):
         self.angle += degrees(angular_velocity) * dt
         self.rect = rect
 
+        pygame.draw.rect(screen, (0, 255, 0), self.rect)
         screen.blit(rotated, self.rect)
 
         self.raycasts.clear()
