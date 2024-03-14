@@ -54,11 +54,11 @@ class Player(pygame.sprite.Sprite):
         rotated = pygame.transform.rotate(self.image, self.angle)
         rect = rotated.get_rect(center=self.image.get_rect(topleft = self.position).center)
 	
-        if self.collide(track_border) == None:
+        if self.collide(track_border):
             #TODO Replace with reset to end the game
             font = pygame.font.Font(None, 72)
             self.reset()
-            self.position = Vector2(500, 900)  
+            self.position = Vector2(500, 800)  
             screen.blit(font.render("Game Over! Better Luck Next time", True, (255, 0, 0)), (600, 500))
             pygame.display.flip()
             time.sleep(1)

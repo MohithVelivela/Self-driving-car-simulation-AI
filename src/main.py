@@ -15,10 +15,10 @@ running = True
 
 playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
-player = Player(500, 900, "assets/imgs/car_dir_updated.png")
+player = Player(500, 800, "assets/imgs/car_dir_updated.png")
 
-track = pygame.image.load("assets/imgs/circle-track.jpg")
-track_border = pygame.image.load("assets/imgs/circle-track-transparent.png")
+track = pygame.image.load("assets/imgs/circle-track-border.png")
+track_border = pygame.image.load("assets/imgs/circle-track-border.png")
 track_border_mask = pygame.mask.from_surface(track_border)
 
 # Game loop
