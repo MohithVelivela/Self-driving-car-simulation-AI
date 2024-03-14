@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, self.width, self.height)
 
         # RayCast
-        self.raycast = None
+        self.raycasts = []
 
     def cast_rays(self, border : pygame.image, offset_angle = 0):
         length = 0
@@ -53,11 +53,11 @@ class Player(pygame.sprite.Sprite):
 
         # Calculate Distance To Border And Append To Radars List
         dist = int(math.sqrt(math.pow(x - self.rect.center[0], 2) + math.pow(y - self.rect.center[1], 2)))
-        self.raycast = [[(x, y), dist]]
+        self.raycasts.append(((x, y), dist))
 
     def draw_radar(self, screen):
         # Optionally Draw All Sensors / Radars
-        for radar in self.raycast:
+        for radar in self.raycasts:
             position = radar[0]
             pygame.draw.line(screen, (0, 255, 0), self.rect.center, position, 1)
             pygame.draw.circle(screen, (0, 255, 0), position, 5)
@@ -65,9 +65,10 @@ class Player(pygame.sprite.Sprite):
     def update(self, screen,dt, track_border : pygame.image, track_border_mask : pygame.mask):
         # This function is called once a frame
 
-        self.cast_rays(track_border)
+        for offset in range(-90, 120, 45):
+            self.cast_rays(track_border, offset_angle = offset)
         self.draw_radar(screen)
-        print(self.raycast)
+        
 
         self.velocity += (self.acceleration * dt, 0)
         self.velocity.x = max(-self.max_velocity, min(self.velocity.x, self.max_velocity))
@@ -100,6 +101,8 @@ class Player(pygame.sprite.Sprite):
         self.rect = rect
 
         screen.blit(rotated, self.rect)
+
+        self.raycasts.clear()
 
         """if self.is_lap_completed():
             self.lap_counter += 1
