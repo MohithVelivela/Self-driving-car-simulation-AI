@@ -21,8 +21,8 @@ class Player(pygame.sprite.Sprite):
         self.max_acceleration = max_acceleration
         self.max_steering = max_steering
         self.max_velocity = 15
-        self.brake_deceleration = 10
-        self.free_deceleration = 2
+        self.brake_deceleration = 5
+        self.free_deceleration = 0.5
         self.acceleration = 0.0
         self.steering = 0.0                                                        
         self.width = 100
