@@ -14,8 +14,8 @@ class Player(pygame.sprite.Sprite):
         # Assigning all the player variable and initial setup
         self.image = pygame.image.load(image)
         print(self.image.get_width())
-        self.image = pygame.transform.scale(self.image, (int(self.image.get_width()), 
-                                                        int(self.image.get_height())))
+        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.2), 
+                                                        int(self.image.get_height() * 0.2)))
         print(self.image.get_width())
         self.position = Vector2(x, y)
         self.velocity = Vector2(0.0, 0.0)
@@ -61,8 +61,8 @@ class Player(pygame.sprite.Sprite):
         # Optionally Draw All Sensors / Radars
         for radar in self.raycasts:
             position = radar[0]
-            pygame.draw.line(screen, (0, 255, 0), self.rect.center, position, 1)
-            pygame.draw.circle(screen, (0, 255, 0), position, 5)
+            pygame.draw.line(screen, (0, 0, 255), self.rect.center, position, 1)
+            pygame.draw.circle(screen, (0, 0, 255), position, 5)
 
     def update(self, screen,dt, track_border : pygame.image, track_border_mask : pygame.mask):
         # This function is called once a frame
@@ -86,6 +86,15 @@ class Player(pygame.sprite.Sprite):
         # Drawing the player
         rotated = pygame.transform.rotate(self.image, self.angle)
         rect = rotated.get_rect(center=self.image.get_rect(topleft = self.position).center)
+
+        self.position += self.velocity.rotate(-self.angle) * dt
+        self.angle += degrees(angular_velocity) * dt
+        self.rect = rect
+
+        #pygame.draw.rect(screen, (0, 255, 0), self.rect)
+        screen.blit(rotated, self.rect)
+
+        self.raycasts.clear()
 	
         if self.collide(track_border_mask):
             #TODO Replace with reset to end the game
@@ -97,15 +106,6 @@ class Player(pygame.sprite.Sprite):
             time.sleep(1)
             
             #self.bounce()
-
-        self.position += self.velocity.rotate(-self.angle) * dt
-        self.angle += degrees(angular_velocity) * dt
-        self.rect = rect
-
-        #pygame.draw.rect(screen, (0, 255, 0), self.rect)
-        screen.blit(rotated, self.rect)
-
-        self.raycasts.clear()
 
         """if self.is_lap_completed():
             self.lap_counter += 1
