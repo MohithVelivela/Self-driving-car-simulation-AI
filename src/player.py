@@ -11,7 +11,7 @@ CAR_SIZE_Y = 60
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=1, max_acceleration=1.0):
+    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=2, max_acceleration=0.8):
         pygame.sprite.Sprite.__init__(self, self.containers)
 
         # Assigning all the player variable and initial setup
@@ -26,7 +26,7 @@ class Player(pygame.sprite.Sprite):
         self.length = length
         self.max_acceleration = max_acceleration
         self.max_steering = max_steering
-        self.max_velocity = 25 
+        self.max_velocity = 30
         self.brake_deceleration = 10
         self.free_deceleration = 0.5
         self.acceleration = 0.0
@@ -47,6 +47,8 @@ class Player(pygame.sprite.Sprite):
         # RayCast
         self.raycasts = []
         self.distance = []
+
+        self.cooldown = 0
 
     def cast_rays(self, border : pygame.image, offset_angle = 0):
         length = 0
@@ -73,11 +75,6 @@ class Player(pygame.sprite.Sprite):
     
     def draw(self,screen, offset : Vector2):
         #self.draw_radar(screen, offset) #OPTIONAL FOR SENSORS
-        offset_rect = self.rect.copy()
-        offset_rect.x -= offset.x
-        offset_rect.y -= offset.y
-        pygame.draw.rect(screen, (0, 0, 255), offset_rect)
-        
         screen.blit(self.rotated_image, self.position - offset) # Draw Sprite
         
 
@@ -88,14 +85,16 @@ class Player(pygame.sprite.Sprite):
             pygame.draw.line(screen, (0, 0, 255), self.rect.center, position, 1)
             pygame.draw.circle(screen, (0, 0, 255), position, 5)
 
-    def update(self, screen,dt, track_border : pygame.image, track_border_mask : pygame.mask,config, start_rect):
+    def update(self, screen,dt, track_border : pygame.image, track_border_mask : pygame.mask, start_mask, offset : Vector2):
         # This function is called once a frame
+
+        self.cooldown = max(0, self.cooldown - 1)
 
         self.raycasts.clear()
         self.distance.clear()
 
-        for offset in range(-90, 120, 45):
-            self.cast_rays(track_border, offset_angle = offset)
+        for angle_offset in range(-90, 120, 45):
+            self.cast_rays(track_border, offset_angle = angle_offset)
         #self.draw_radar(screen)
         
 
@@ -128,7 +127,6 @@ class Player(pygame.sprite.Sprite):
         #screen.blit(rotated, self.rect)
 	
         if self.collide(track_border_mask):
-            #TODO Replace with reset to end the game
             font = pygame.font.Font(None, 72)
             #self.reset()
             #self.position = Vector2(500, 800)  
@@ -137,14 +135,17 @@ class Player(pygame.sprite.Sprite):
             #time.sleep(1)
             
             #self.bounce()
+        
 
-        self.collide_start(start_rect)
-        pygame.draw.circle(screen, (0, 255, 0), start_rect.center, 5)
-
-
-        """if self.is_lap_completed():
-            self.lap_counter += 1
-            print("Lap completed. Total laps:", self.lap_counter)"""
+        start_collide_poi = self.collide(start_mask, *offset)
+        if start_collide_poi != None:
+            if self.cooldown == 0:
+                if start_collide_poi[0] == 0:
+                    self.lap += 1
+                    self.cooldown = 150
+                else:
+                    self.lap -= 1
+                    self.cooldown = 150
 
     def move(self, dt, steering, accelerate):
         pressed = pygame.key.get_pressed()
@@ -158,8 +159,8 @@ class Player(pygame.sprite.Sprite):
             if self.velocity.x > 0:
                 self.acceleration = -self.brake_deceleration
             else:
-                #self.acceleration -= 1 * dt
-                self.acceleration = 0
+                self.acceleration -= 1 * dt
+                #self.acceleration = 0
         elif pressed[pygame.K_SPACE]:
             if abs(self.velocity.x) > dt * self.brake_deceleration:
                 self.acceleration = -copysign(self.brake_deceleration, self.velocity.x)
@@ -193,17 +194,8 @@ class Player(pygame.sprite.Sprite):
         offset = (int(self.position.x - x), int(self.position.y - y))
         poi = mask.overlap(car_mask, offset)
         return poi
-        
-    def collide_start(self, start_rect):
-        if self.rect.colliderect(start_rect):
-            car_center = self.rect.left
-            start_center = start_rect.right
-            if car_center < start_center:
-                self.lap += 1
-            elif car_center > start_center:
-                self.lap -= 1
-                self.rect.left = start_rect.right
     
+
     def reset(self):
         self.velocity = Vector2(0.0, 0.0)
         self.acceleration = 0.0
