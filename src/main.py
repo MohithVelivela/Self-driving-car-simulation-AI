@@ -26,15 +26,14 @@ playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
 #player = Player()
 
-track_image_path = "src/assets/imgs/Track-3.png"
-start_pos = pygame.Vector2(550, 880)
-
-track = pygame.image.load(track_image_path)
-track_border = pygame.image.load(track_image_path)
-track_border_mask = pygame.mask.from_surface(track_border)
-start = pygame.image.load("src/assets/imgs/start.png")
 
 
+Maps = { "Oval" : ["src/assets/imgs/Oval_track.png","src/assets/imgs/Oval_track.png",pygame.Vector2(950,820)],
+	  "Triangular" : ["src/assets/imgs/Triangular_track.png","src/assets/imgs/Triangular_track.png",pygame.Vector2(660,880)],
+	  "Infinity" : ["src/assets/imgs/Infinity_track.png","src/assets/imgs/Infinity_track.png",pygame.Vector2(550,840)]
+	}
+
+Current_Track = "Oval"
 
 WIDTH = 1280
 HEIGHT = 720
@@ -84,11 +83,28 @@ def run_simulation(genomes, config):
         # screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
         # For All Genomes Passed Create A New Neural Network
+        global current_generation
+        global Current_Track
+        
+            
+        track_border_path = Maps[Current_Track][1]
+        track_image_path = Maps[Current_Track][0]
+        start_pos = Maps[Current_Track][2]
+        track = pygame.image.load(track_image_path)
+        track_border = pygame.image.load(track_border_path)
+        track_border_mask = pygame.mask.from_surface(track_border)
+        start = pygame.image.load("src/assets/imgs/start.png")
+
+        if current_generation % 5 == 0:
+            index = list(Maps.keys()).index(Current_Track)
+            index = (index+1)%len(Maps)
+            Current_Track = list(Maps.keys())[index]
+
         for i, g in genomes:
             net = neat.nn.FeedForwardNetwork.create(g, config)
             nets.append(net)
             g.fitness = 0
-
+	    	
             cars.append(Player(start_pos.x, start_pos.y, "src/assets/imgs/red-car.png"))
 
         # Clock Settings
@@ -96,10 +112,11 @@ def run_simulation(genomes, config):
         clock = pygame.time.Clock()
         generation_font = pygame.font.SysFont("Arial", 30)
         alive_font = pygame.font.SysFont("Arial", 20)
+        
         game_map = pygame.image.load(track_image_path).convert() # Convert Speeds Up A Lot
         #print("init")
 
-        global current_generation
+        #global current_generation
         current_generation += 1
 
         # Simple Counter To Roughly Limit Time (Not Good Practice)
