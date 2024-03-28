@@ -11,7 +11,7 @@ CAR_SIZE_Y = 60
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=1, max_acceleration=1.0):
+    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=0.8, max_acceleration=1.0):
         pygame.sprite.Sprite.__init__(self, self.containers)
 
         # Assigning all the player variable and initial setup
@@ -31,8 +31,6 @@ class Player(pygame.sprite.Sprite):
         self.free_deceleration = 0.5
         self.acceleration = 0.0
         self.steering = 0.0                                                        
-        self.width = 100
-        self.height = 50
         self.speed = 5
         self.lap = 0
         self.rotate_speed = 60
@@ -44,7 +42,7 @@ class Player(pygame.sprite.Sprite):
 
         self.bounce_force = 0.5
 
-        self.rect = pygame.Rect(x, y, self.width, self.height)
+        self.rect = pygame.Rect(x, y, self.image.get_width(), self.image.get_height())
 
         # RayCast
         self.raycasts = []
@@ -73,13 +71,13 @@ class Player(pygame.sprite.Sprite):
         print(self.final)
         print("len is 5")"""
     
-    def draw(self,screen):
-        screen.blit(self.rotated_image, self.position) # Draw Sprite
-        self.draw_radar(screen) #OPTIONAL FOR SENSORS
+    def draw(self,screen, offset : Vector2):
+        screen.blit(self.rotated_image, self.position - offset) # Draw Sprite
+        #self.draw_radar(screen, offset) #OPTIONAL FOR SENSORS
         
         
 
-    def draw_radar(self, screen):
+    def draw_radar(self, screen, offset):
         # Optionally Draw All Sensors / Radars
         for radar in self.raycasts:
             position = radar[0]
@@ -106,8 +104,11 @@ class Player(pygame.sprite.Sprite):
         else:
             angular_velocity = 0    
 
+        # if self.acceleration < 0 and self.velocity.x < 0:
+        #     print("going back")
+            
         #self.move(dt)
-        
+        # Calculate distance travelled
         self.dist_travelled += self.get_magnitude(self.velocity)
         self.time += 1
         # Drawing the player
@@ -149,7 +150,8 @@ class Player(pygame.sprite.Sprite):
             if self.velocity.x > 0:
                 self.acceleration = -self.brake_deceleration
             else:
-                self.acceleration -= 1 * dt
+                #self.acceleration -= 1 * dt
+                self.acceleration = 0
         elif pressed[pygame.K_SPACE]:
             if abs(self.velocity.x) > dt * self.brake_deceleration:
                 self.acceleration = -copysign(self.brake_deceleration, self.velocity.x)

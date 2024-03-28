@@ -6,9 +6,9 @@ import sys
 import random
 from math import sin, radians, degrees, copysign
 import math
+import time
 
-
-config_path = "./config.txt"
+config_path = "src/config.txt"
 config = neat.config.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,config_path)
 
 # Setting up pygame and window
@@ -26,15 +26,17 @@ playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
 #player = Player()
 
-track = pygame.image.load("assets/imgs/circle-track-border.png")
-track_border = pygame.image.load("assets/imgs/circle-track-border.png")
-track_border_mask = pygame.mask.from_surface(track_border)
-start = pygame.image.load("assets/imgs/start.png")
 
 
+Maps = { "Oval" : ["src/assets/imgs/Oval_track.png","src/assets/imgs/Oval_track.png",pygame.Vector2(950,820)],
+	  "Triangular" : ["src/assets/imgs/Triangular_track.png","src/assets/imgs/Triangular_track.png",pygame.Vector2(660,880)],
+	  "Infinity" : ["src/assets/imgs/Infinity_track.png","src/assets/imgs/Infinity_track.png",pygame.Vector2(550,840)]
+	}
 
-WIDTH = 1920
-HEIGHT = 1080
+Current_Track = "Oval"
+
+WIDTH = 1280
+HEIGHT = 720
 
 CAR_SIZE_X = 60    
 CAR_SIZE_Y = 60
@@ -81,28 +83,46 @@ def run_simulation(genomes, config):
         # screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
         # For All Genomes Passed Create A New Neural Network
+        global current_generation
+        global Current_Track
+        
+            
+        track_border_path = Maps[Current_Track][1]
+        track_image_path = Maps[Current_Track][0]
+        start_pos = Maps[Current_Track][2]
+        track = pygame.image.load(track_image_path)
+        track_border = pygame.image.load(track_border_path)
+        track_border_mask = pygame.mask.from_surface(track_border)
+        start = pygame.image.load("src/assets/imgs/start.png")
+
+        if current_generation % 5 == 0:
+            index = list(Maps.keys()).index(Current_Track)
+            index = (index+1)%len(Maps)
+            Current_Track = list(Maps.keys())[index]
+
         for i, g in genomes:
             net = neat.nn.FeedForwardNetwork.create(g, config)
             nets.append(net)
             g.fitness = 0
-
-            cars.append(Player(500, 800, "./assets/imgs/red-car.png"))
+	    	
+            cars.append(Player(start_pos.x, start_pos.y, "src/assets/imgs/red-car.png"))
 
         # Clock Settings
         # Font Settings & Loading Map
         clock = pygame.time.Clock()
         generation_font = pygame.font.SysFont("Arial", 30)
         alive_font = pygame.font.SysFont("Arial", 20)
-        game_map = pygame.image.load("assets/imgs/circle-track-border.png").convert() # Convert Speeds Up A Lot
+        
+        game_map = pygame.image.load(track_image_path).convert() # Convert Speeds Up A Lot
         #print("init")
 
-        global current_generation
+        #global current_generation
         current_generation += 1
 
         # Simple Counter To Roughly Limit Time (Not Good Practice)
         counter = 0
 
-        while True:
+        while True: 
             #print("While_outer")
             for event in pygame.event.get():
                 #print("for_in_1")
@@ -153,41 +173,60 @@ def run_simulation(genomes, config):
             
             # Check If Car Is Still Alive
             # Increase Fitness If Yes And Break Loop If Not
-
-            # Drawing the background    
-            screen.blit(game_map, (0, 0))
             
             still_alive = 0
+            best_car : Player = cars[0]
+            max_distance = 0.0
             for i, car in enumerate(cars):
-                #print("for_in_3")
                 if car.is_alive(track_border_mask):
+                    if max_distance < car.dist_travelled:
+                        max_distance = car.dist_travelled
+                        best_car = car
                     still_alive += 1
                     car.update(screen,dt,track_border,track_border_mask,config)
-                    genomes[i][1].fitness += car.get_reward()
-
-            if still_alive == 0:
-                break
 
             counter += 1
-            if counter == 600: # Stop After About 20 Seconds
+            if still_alive == 0 or counter == 600:
+                for i, car in enumerate(cars):
+                    genomes[i][1].fitness = car.get_reward()
                 break
+
+
+            # Drawing the background 
+            offset : pygame.Vector2 = pygame.Vector2(0,0)
+            offset.x = best_car.rect.centerx - WIDTH//2
+            offset.y = best_car.rect.centery - HEIGHT//2
+
+            screen.fill((0,0,0))
+
+            # Draw the track
+            screen.blit(game_map, -offset)
+
+            # Draw the lap start marker
+            start_rect = start.get_rect()
+            start_rect.center = start_pos - offset
+            screen.blit(start, start_rect)
 
             # Draw All Cars That Are Alive
             for car in cars:
                 #print("for_in_4")
+                num_drawn = 0
                 if car.is_alive(track_border_mask):
-                    car.draw(screen)
+                    if num_drawn >= 15:
+                        break
+                    car.draw(screen, offset)
             
             # Display Info
+            pygame.draw.rect(screen, (255,255,255) ,(0,0,180,100))
             text = generation_font.render("Generation: " + str(current_generation), True, (0,0,0))
             text_rect = text.get_rect()
-            text_rect.center = (900, 450)
+            text_rect.topleft = (10, 20)
             screen.blit(text, text_rect)
 
             text = alive_font.render("Still Alive: " + str(still_alive), True, (0, 0, 0))
             text_rect = text.get_rect()
-            text_rect.center = (900, 490)
-            screen.blit(text, text_rect)
+            text_rect.center = (60, 70)
+            screen.blit(text, text_rect.topleft)
 
             clock.tick(60)
             pygame.display.flip()
@@ -196,7 +235,7 @@ def run_simulation(genomes, config):
 if __name__ == "__main__":
     
     # Load Config
-    config_path = "./config.txt"
+    config_path = "src/config.txt"
     config = neat.config.Config(neat.DefaultGenome,
                                 neat.DefaultReproduction,
                                 neat.DefaultSpeciesSet,
