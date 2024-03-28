@@ -73,13 +73,13 @@ class Player(pygame.sprite.Sprite):
         print(self.final)
         print("len is 5")"""
     
-    def draw(self,screen):
-        screen.blit(self.rotated_image, self.position) # Draw Sprite
-        self.draw_radar(screen) #OPTIONAL FOR SENSORS
+    def draw(self,screen, offset : Vector2):
+        screen.blit(self.rotated_image, self.position - offset) # Draw Sprite
+        #self.draw_radar(screen, offset) #OPTIONAL FOR SENSORS
         
         
 
-    def draw_radar(self, screen):
+    def draw_radar(self, screen, offset):
         # Optionally Draw All Sensors / Radars
         for radar in self.raycasts:
             position = radar[0]
@@ -106,8 +106,11 @@ class Player(pygame.sprite.Sprite):
         else:
             angular_velocity = 0    
 
+        # if self.acceleration < 0 and self.velocity.x < 0:
+        #     print("going back")
+            
         #self.move(dt)
-        
+        # Calculate distance travelled
         self.dist_travelled += self.get_magnitude(self.velocity)
         self.time += 1
         # Drawing the player
@@ -150,6 +153,7 @@ class Player(pygame.sprite.Sprite):
                 self.acceleration = -self.brake_deceleration
             else:
                 self.acceleration -= 1 * dt
+                #self.acceleration = 0
         elif pressed[pygame.K_SPACE]:
             if abs(self.velocity.x) > dt * self.brake_deceleration:
                 self.acceleration = -copysign(self.brake_deceleration, self.velocity.x)
