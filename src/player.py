@@ -11,7 +11,7 @@ CAR_SIZE_Y = 60
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=0.8, max_acceleration=1.0):
+    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=1, max_acceleration=1.0):
         pygame.sprite.Sprite.__init__(self, self.containers)
 
         # Assigning all the player variable and initial setup

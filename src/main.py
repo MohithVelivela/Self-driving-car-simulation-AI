@@ -26,8 +26,8 @@ playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
 #player = Player()
 
-track_image_path = "src/assets/imgs/Track-4.png"
-start_pos = pygame.Vector2(450, 820)
+track_image_path = "src/assets/imgs/Track-3.png"
+start_pos = pygame.Vector2(550, 880)
 
 track = pygame.image.load(track_image_path)
 track_border = pygame.image.load(track_image_path)
@@ -167,11 +167,10 @@ def run_simulation(genomes, config):
                         best_car = car
                     still_alive += 1
                     car.update(screen,dt,track_border,track_border_mask,config)
+                    genomes[i][1].fitness = car.get_reward()
 
             counter += 1
             if still_alive == 0 or counter == 600:
-                for i, car in enumerate(cars):
-                    genomes[i][1].fitness = car.get_reward()
                 break
 
 
