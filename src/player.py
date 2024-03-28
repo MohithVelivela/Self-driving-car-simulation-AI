@@ -55,7 +55,7 @@ class Player(pygame.sprite.Sprite):
         y = int(self.rect.center[1] + math.sin(math.radians(360 - (self.angle + offset_angle))) * length)
 
         # While We Don't Hit BORDER_COLOR AND length < 300 (just a max) -> go further and further
-        while border.get_at((x, y)).a == 0:
+        while border.get_at((x, y)).a == 0 and length < 300:
             length = length + 1
             x = int(self.rect.center[0] + math.cos(math.radians(360 - (self.angle + offset_angle))) * length)
             y = int(self.rect.center[1] + math.sin(math.radians(360 - (self.angle + offset_angle))) * length)
@@ -72,9 +72,13 @@ class Player(pygame.sprite.Sprite):
         print("len is 5")"""
     
     def draw(self,screen, offset : Vector2):
-        screen.blit(self.rotated_image, self.position - offset) # Draw Sprite
         #self.draw_radar(screen, offset) #OPTIONAL FOR SENSORS
+        offset_rect = self.rect.copy()
+        offset_rect.x -= offset.x
+        offset_rect.y -= offset.y
+        pygame.draw.rect(screen, (0, 0, 255), offset_rect)
         
+        screen.blit(self.rotated_image, self.position - offset) # Draw Sprite
         
 
     def draw_radar(self, screen, offset):
@@ -84,7 +88,7 @@ class Player(pygame.sprite.Sprite):
             pygame.draw.line(screen, (0, 0, 255), self.rect.center, position, 1)
             pygame.draw.circle(screen, (0, 0, 255), position, 5)
 
-    def update(self, screen,dt, track_border : pygame.image, track_border_mask : pygame.mask,config):
+    def update(self, screen,dt, track_border : pygame.image, track_border_mask : pygame.mask,config, start_rect):
         # This function is called once a frame
 
         self.raycasts.clear()
@@ -133,6 +137,10 @@ class Player(pygame.sprite.Sprite):
             #time.sleep(1)
             
             #self.bounce()
+
+        self.collide_start(start_rect)
+        pygame.draw.circle(screen, (0, 255, 0), start_rect.center, 5)
+
 
         """if self.is_lap_completed():
             self.lap_counter += 1
@@ -186,6 +194,16 @@ class Player(pygame.sprite.Sprite):
         poi = mask.overlap(car_mask, offset)
         return poi
         
+    def collide_start(self, start_rect):
+        if self.rect.colliderect(start_rect):
+            car_center = self.rect.left
+            start_center = start_rect.right
+            if car_center < start_center:
+                self.lap += 1
+            elif car_center > start_center:
+                self.lap -= 1
+                self.rect.left = start_rect.right
+    
     def reset(self):
         self.velocity = Vector2(0.0, 0.0)
         self.acceleration = 0.0

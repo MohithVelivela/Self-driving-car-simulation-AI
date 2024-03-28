@@ -30,7 +30,8 @@ Player.containers = playerGroup
 
 Maps = { "Oval" : ["src/assets/imgs/Oval_track.png","src/assets/imgs/Oval_track.png",pygame.Vector2(950,820)],
 	  "Triangular" : ["src/assets/imgs/Triangular_track.png","src/assets/imgs/Triangular_track.png",pygame.Vector2(660,880)],
-	  "Infinity" : ["src/assets/imgs/Infinity_track.png","src/assets/imgs/Infinity_track.png",pygame.Vector2(550,840)]
+	  "Infinity" : ["src/assets/imgs/Infinity_track.png","src/assets/imgs/Infinity_track.png",pygame.Vector2(550,840)],
+      "Endless" : ["src/assets/imgs/endless_track.png", "src/assets/imgs/endless_track.png", pygame.Vector2(1500, 3250)]
 	}
 
 Current_Track = "Oval"
@@ -48,7 +49,8 @@ current_generation = 0 # Generation counter
 
 dt = 0.5
 
-
+BASE_TIME = 300
+MAX_TIME = 3000
 
 # Game loop
 """while running:
@@ -86,14 +88,23 @@ def run_simulation(genomes, config):
         global current_generation
         global Current_Track
         
+        # Calculating how long to run this generation
             
+        generation_time = min(BASE_TIME + current_generation * 10, MAX_TIME)
+
+        current_generation += 1
+
         track_border_path = Maps[Current_Track][1]
         track_image_path = Maps[Current_Track][0]
         start_pos = Maps[Current_Track][2]
         track = pygame.image.load(track_image_path)
+
         track_border = pygame.image.load(track_border_path)
         track_border_mask = pygame.mask.from_surface(track_border)
+
         start = pygame.image.load("src/assets/imgs/start.png")
+        start_rect = start.get_rect()
+        start_rect.center = start_pos
 
         if current_generation % 5 == 0:
             index = list(Maps.keys()).index(Current_Track)
@@ -114,10 +125,6 @@ def run_simulation(genomes, config):
         alive_font = pygame.font.SysFont("Arial", 20)
         
         game_map = pygame.image.load(track_image_path).convert() # Convert Speeds Up A Lot
-        #print("init")
-
-        #global current_generation
-        current_generation += 1
 
         # Simple Counter To Roughly Limit Time (Not Good Practice)
         counter = 0
@@ -171,25 +178,13 @@ def run_simulation(genomes, config):
                 #     else:
                 #         car.acceleration -= 1 * dt
             
-            # Check If Car Is Still Alive
-            # Increase Fitness If Yes And Break Loop If Not
-            
-            still_alive = 0
             best_car : Player = cars[0]
             max_distance = 0.0
-            for i, car in enumerate(cars):
+            for car in cars:
                 if car.is_alive(track_border_mask):
                     if max_distance < car.dist_travelled:
                         max_distance = car.dist_travelled
                         best_car = car
-                    still_alive += 1
-                    car.update(screen,dt,track_border,track_border_mask,config)
-                    genomes[i][1].fitness = car.get_reward()
-
-            counter += 1
-            if still_alive == 0 or counter == 600:
-                break
-
 
             # Drawing the background 
             offset : pygame.Vector2 = pygame.Vector2(0,0)
@@ -202,9 +197,23 @@ def run_simulation(genomes, config):
             screen.blit(game_map, -offset)
 
             # Draw the lap start marker
-            start_rect = start.get_rect()
-            start_rect.center = start_pos - offset
-            screen.blit(start, start_rect)
+            screen.blit(start, start_rect.topleft - offset)
+
+        
+            # Check If Car Is Still Alive
+            # Increase Fitness If Yes And Break Loop If Not
+            
+            still_alive = 0
+            for i, car in enumerate(cars):
+                if car.is_alive(track_border_mask):
+                    #print(f"Car {i} : {car.lap}")
+                    still_alive += 1
+                    car.update(screen,dt,track_border,track_border_mask,config, start_rect)
+                    genomes[i][1].fitness = car.get_reward()
+
+            counter += 1
+            if still_alive == 0 or counter >= generation_time:
+                break
 
             # Draw All Cars That Are Alive
             for car in cars:
