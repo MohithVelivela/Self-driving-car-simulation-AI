@@ -27,7 +27,8 @@ Player.containers = playerGroup
 Maps = { "Oval" : ["src/assets/imgs/Oval_track.png","src/assets/imgs/Oval_track.png",pygame.Vector2(950,820)],
 	  "Triangular" : ["src/assets/imgs/Triangular_track.png","src/assets/imgs/Triangular_track.png",pygame.Vector2(660,880)],
 	  "Infinity" : ["src/assets/imgs/Infinity_track.png","src/assets/imgs/Infinity_track.png",pygame.Vector2(550,840)],
-      "Endless" : ["src/assets/imgs/endless_track.png", "src/assets/imgs/endless_track.png", pygame.Vector2(1500, 3250)]
+      "Endless" : ["src/assets/imgs/Desert_Track_brgd.jpg", "src/assets/imgs/Desert_Track.png", pygame.Vector2(1500, 3275)],
+      "F100" : ["src/assets/imgs/F100.png", "src/assets/imgs/F100.png", pygame.Vector2(2000, 450)]
 	}
 
 Current_Track = "Oval"
@@ -89,15 +90,16 @@ def run_simulation(genomes, config):
         global Current_Track
         
         # Calculating how long to run this generation
-            
         generation_time = min(BASE_TIME + current_generation * 10, MAX_TIME)
+        if Current_Track == "Endless" or Current_Track == "F100":
+            generation_time = min(BASE_TIME + current_generation * 40, MAX_TIME)
+
 
         current_generation += 1
 
         track_border_path = Maps[Current_Track][1]
         track_image_path = Maps[Current_Track][0]
         start_pos = Maps[Current_Track][2]
-        track = pygame.image.load(track_image_path)
 
         track_border = pygame.image.load(track_border_path)
         track_border_mask = pygame.mask.from_surface(track_border)
