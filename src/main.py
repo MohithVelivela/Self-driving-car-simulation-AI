@@ -26,8 +26,11 @@ playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
 #player = Player()
 
-track = pygame.image.load("src/assets/imgs/circle-track-border.png")
-track_border = pygame.image.load("src/assets/imgs/circle-track-border.png")
+track_image_path = "src/assets/imgs/Track-4.png"
+start_pos = pygame.Vector2(450, 820)
+
+track = pygame.image.load(track_image_path)
+track_border = pygame.image.load(track_image_path)
 track_border_mask = pygame.mask.from_surface(track_border)
 start = pygame.image.load("src/assets/imgs/start.png")
 
@@ -86,14 +89,14 @@ def run_simulation(genomes, config):
             nets.append(net)
             g.fitness = 0
 
-            cars.append(Player(500, 800, "src/assets/imgs/red-car.png"))
+            cars.append(Player(start_pos.x, start_pos.y, "src/assets/imgs/red-car.png"))
 
         # Clock Settings
         # Font Settings & Loading Map
         clock = pygame.time.Clock()
         generation_font = pygame.font.SysFont("Arial", 30)
         alive_font = pygame.font.SysFont("Arial", 20)
-        game_map = pygame.image.load("src/assets/imgs/circle-track-border.png").convert() # Convert Speeds Up A Lot
+        game_map = pygame.image.load(track_image_path).convert() # Convert Speeds Up A Lot
         #print("init")
 
         global current_generation
@@ -164,16 +167,13 @@ def run_simulation(genomes, config):
                         best_car = car
                     still_alive += 1
                     car.update(screen,dt,track_border,track_border_mask,config)
-                    genomes[i][1].fitness += car.get_reward()
-
-            if still_alive == 0:
-                break
 
             counter += 1
-            if counter == 600: # Stop After About 20 Seconds
+            if still_alive == 0 or counter == 600:
+                for i, car in enumerate(cars):
+                    genomes[i][1].fitness = car.get_reward()
                 break
 
-            print(best_car.get_reward())
 
             # Drawing the background 
             offset : pygame.Vector2 = pygame.Vector2(0,0)
@@ -181,7 +181,14 @@ def run_simulation(genomes, config):
             offset.y = best_car.rect.centery - HEIGHT//2
 
             screen.fill((0,0,0))
+
+            # Draw the track
             screen.blit(game_map, -offset)
+
+            # Draw the lap start marker
+            start_rect = start.get_rect()
+            start_rect.center = start_pos - offset
+            screen.blit(start, start_rect)
 
             # Draw All Cars That Are Alive
             for car in cars:
