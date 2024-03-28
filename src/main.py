@@ -1,12 +1,8 @@
 import pygame
 from player import Player
 import neat
-import os 
 import sys
-import random
 from math import sin, radians, degrees, copysign
-import math
-import time
 
 config_path = "src/config.txt"
 config = neat.config.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,config_path)
@@ -49,8 +45,12 @@ current_generation = 0 # Generation counter
 
 dt = 0.5
 
+# Constants for training the model
+
 BASE_TIME = 300
 MAX_TIME = 3000
+
+LAP_REWARD = 1000
 
 # Game loop
 """while running:
@@ -103,8 +103,11 @@ def run_simulation(genomes, config):
         track_border_mask = pygame.mask.from_surface(track_border)
 
         start = pygame.image.load("src/assets/imgs/start.png")
+        start_mask = pygame.mask.from_surface(start)
+
         start_rect = start.get_rect()
-        start_rect.center = start_pos
+        start_rect.right = start_pos.x - 50
+        start_rect.centery = start_pos.y
 
         if current_generation % 5 == 0:
             index = list(Maps.keys()).index(Current_Track)
@@ -154,29 +157,6 @@ def run_simulation(genomes, config):
                     accelerate = -1
 
                 car.move(dt, steering, accelerate)
-
-                # if car.steering:
-                #     turning_radius = car.length / sin(radians(car.steering))
-                #     angular_velocity = car.velocity.x / turning_radius
-                # else:
-                #     angular_velocity = 0 
-                # car.velocity += (car.acceleration * dt, 0)
-                # car.velocity.x = max(-car.max_velocity, min(car.velocity.x, car.max_velocity))
-                # #print(f"Choice : {choice}")
-                # if choice == 0:
-                #     car.steering += car.rotate_speed * dt# Left
-                # elif choice == 1:
-                #     car.steering -= car.rotate_speed * dt# Right
-                # elif choice == 2:
-                #     if car.velocity.x < 0:
-                #         car.acceleration = car.brake_deceleration
-                #     else:
-                #         car.acceleration += 1 * dt
-                # else:
-                #     if car.velocity.x > 0:
-                #         car.acceleration = -car.brake_deceleration
-                #     else:
-                #         car.acceleration -= 1 * dt
             
             best_car : Player = cars[0]
             max_distance = 0.0
@@ -191,6 +171,21 @@ def run_simulation(genomes, config):
             offset.x = best_car.rect.centerx - WIDTH//2
             offset.y = best_car.rect.centery - HEIGHT//2
 
+
+            # Check If Car Is Still Alive
+            # Increase Fitness If Yes And Break Loop If Not
+            
+            still_alive = 0
+            for i, car in enumerate(cars):
+                if car.is_alive(track_border_mask):
+                    still_alive += 1
+                    car.update(screen,dt,track_border,track_border_mask, start_mask, start_rect.topleft)
+                    genomes[i][1].fitness = car.get_reward() + car.lap * LAP_REWARD
+
+            counter += 1
+            if still_alive == 0 or counter >= generation_time:
+                break
+
             screen.fill((0,0,0))
 
             # Draw the track
@@ -199,31 +194,11 @@ def run_simulation(genomes, config):
             # Draw the lap start marker
             screen.blit(start, start_rect.topleft - offset)
 
-        
-            # Check If Car Is Still Alive
-            # Increase Fitness If Yes And Break Loop If Not
-            
-            still_alive = 0
-            for i, car in enumerate(cars):
-                if car.is_alive(track_border_mask):
-                    #print(f"Car {i} : {car.lap}")
-                    still_alive += 1
-                    car.update(screen,dt,track_border,track_border_mask,config, start_rect)
-                    genomes[i][1].fitness = car.get_reward()
-
-            counter += 1
-            if still_alive == 0 or counter >= generation_time:
-                break
-
             # Draw All Cars That Are Alive
             for car in cars:
-                #print("for_in_4")
-                num_drawn = 0
                 if car.is_alive(track_border_mask):
-                    if num_drawn >= 15:
-                        break
                     car.draw(screen, offset)
-            
+
             # Display Info
             pygame.draw.rect(screen, (255,255,255) ,(0,0,180,100))
             text = generation_font.render("Generation: " + str(current_generation), True, (0,0,0))
@@ -242,22 +217,89 @@ def run_simulation(genomes, config):
 
 if __name__ == "__main__":
     
-    # Load Config
-    config_path = "src/config.txt"
-    config = neat.config.Config(neat.DefaultGenome,
-                                neat.DefaultReproduction,
-                                neat.DefaultSpeciesSet,
-                                neat.DefaultStagnation,
-                                config_path)
+    human = False
 
-    # Create Population And Add Reporters
-    population = neat.Population(config)
-    population.add_reporter(neat.StdOutReporter(True))
-    stats = neat.StatisticsReporter()
-    population.add_reporter(stats)
-    
-    # Run Simulation For A Maximum of 1000 Generations
-    population.run(run_simulation, 1000)
+    if human:
+
+       # Initialize Pygame and the display
+        pygame.init()
+        screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+        track_border_path = Maps[Current_Track][1]
+        track_image_path = Maps[Current_Track][0]
+        start_pos = Maps[Current_Track][2]
+        track = pygame.image.load(track_image_path)
+        game_map = pygame.image.load(track_image_path)
+        track_border = pygame.image.load(track_border_path)
+        track_border_mask = pygame.mask.from_surface(track_border)
+        start = pygame.image.load("src/assets/imgs/start.png")
+        start_mask = pygame.mask.from_surface(start)
+        start_rect = start.get_rect()
+        start_rect.right = start_pos.x + + 200
+        start_rect.centery = start_pos.y
+
+        # Create a player car object
+        player_car = Player(start_pos.x, start_pos.y, "src/assets/imgs/red-car.png")
+
+        # Game loop for human player control
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+                accelerate = 0
+                steering = 0
+
+                # Handle keyboard input for controlling the car
+                pressed = pygame.key.get_pressed()
+                if pressed[pygame.K_w]:
+                    accelerate = 1
+                elif pressed[pygame.K_s]:
+                    accelerate = -1
+
+                if pressed[pygame.K_a]:
+                    steering = -1
+                elif pressed[pygame.K_d]:
+                    steering = 1
+
+            # Update the player car
+            player_car.move(dt, steering, accelerate)
+            player_car.update(screen, dt, track_border, track_border_mask, start_mask, start_rect.topleft)
+
+            # Draw the background
+            offset = pygame.Vector2(0, 0)
+            offset.x = player_car.rect.centerx - WIDTH // 2
+            offset.y = player_car.rect.centery - HEIGHT // 2
+            screen.fill((0, 0, 0))
+            screen.blit(game_map, -offset)
+            screen.blit(start, start_rect.topleft - offset)
+
+            print(player_car.lap)
+
+            # Draw the player car
+            player_car.draw(screen, offset)
+
+            # Display the screen
+            pygame.display.flip()
+            clock.tick(60)
+    else:
+        # Load Config
+        config_path = "src/config.txt"
+        config = neat.config.Config(neat.DefaultGenome,
+                                    neat.DefaultReproduction,
+                                    neat.DefaultSpeciesSet,
+                                    neat.DefaultStagnation,
+                                    config_path)
+
+        # Create Population And Add Reporters
+        population = neat.Population(config)
+        population.add_reporter(neat.StdOutReporter(True))
+        stats = neat.StatisticsReporter()
+        population.add_reporter(stats)
+        
+        # Run Simulation For A Maximum of 1000 Generations
+        population.run(run_simulation, 1000)
 
 
 """pygame.quit()"""
