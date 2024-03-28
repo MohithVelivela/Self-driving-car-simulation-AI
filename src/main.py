@@ -7,6 +7,13 @@ import random
 from math import sin, radians, degrees, copysign
 import math
 import time
+"""from neat.activations import ActivationFunctionSet
+from neat.aggregations import AggregationFunctionSet
+from neat.config import ConfigParameter, write_pretty_params
+from neat.genes import DefaultConnectionGene, DefaultNodeGene
+from neat.graphs import creates_cycle
+from neat.graphs import required_for_output"""
+from neat.genome import DefaultGenomeConfig
 
 config_path = "src/config.txt"
 config = neat.config.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,config_path)
@@ -26,6 +33,10 @@ playerGroup = pygame.sprite.Group()
 Player.containers = playerGroup
 #player = Player()
 
+# Attributes of the Best Car at the time of Exit
+file = open("src/Best_car.txt",'w')
+file.write("Best_fitness: ")
+Best_Fitness = 0
 
 
 Maps = { "Oval" : ["src/assets/imgs/Oval_track.png","src/assets/imgs/Oval_track.png",pygame.Vector2(950,820)],
@@ -85,7 +96,7 @@ def run_simulation(genomes, config):
         # For All Genomes Passed Create A New Neural Network
         global current_generation
         global Current_Track
-        
+        global Best_Fitness
             
         track_border_path = Maps[Current_Track][1]
         track_image_path = Maps[Current_Track][0]
@@ -95,10 +106,6 @@ def run_simulation(genomes, config):
         track_border_mask = pygame.mask.from_surface(track_border)
         start = pygame.image.load("src/assets/imgs/start.png")
 
-        if current_generation % 5 == 0:
-            index = list(Maps.keys()).index(Current_Track)
-            index = (index+1)%len(Maps)
-            Current_Track = list(Maps.keys())[index]
 
         for i, g in genomes:
             net = neat.nn.FeedForwardNetwork.create(g, config)
@@ -119,6 +126,11 @@ def run_simulation(genomes, config):
         #global current_generation
         current_generation += 1
 
+        if current_generation % 5 == 0:
+            index = list(Maps.keys()).index(Current_Track)
+            index = (index+1)%len(Maps)
+            Current_Track = list(Maps.keys())[index]
+
         # Simple Counter To Roughly Limit Time (Not Good Practice)
         counter = 0
 
@@ -127,6 +139,10 @@ def run_simulation(genomes, config):
             for event in pygame.event.get():
                 #print("for_in_1")
                 if event.type == pygame.QUIT:
+                    file.write(str(Best_Fitness))
+                    for i in range(len(genomes)):
+                        file.write(str(genomes[i][1]))
+                    #.save("src/Best_car.txt")
                     sys.exit(0)
 
             for i, car in enumerate(cars):
@@ -173,7 +189,6 @@ def run_simulation(genomes, config):
             
             # Check If Car Is Still Alive
             # Increase Fitness If Yes And Break Loop If Not
-            
             still_alive = 0
             best_car : Player = cars[0]
             max_distance = 0.0
@@ -182,6 +197,7 @@ def run_simulation(genomes, config):
                     if max_distance < car.dist_travelled:
                         max_distance = car.dist_travelled
                         best_car = car
+                        Best_Fitness = max(Best_Fitness,car.get_reward())
                     still_alive += 1
                     car.update(screen,dt,track_border,track_border_mask,config)
 
