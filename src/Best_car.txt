@@ -1,1 +1,514 @@
-Best_fitness: 
+Best_fitness: 3.5Key: 3084
+Fitness: -900.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=0.906701159807276, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-1.5358834421362209, response=1.0, activation=tanh, aggregation=sum)
+	398 DefaultNodeGene(key=398, bias=-0.952930703148241, response=1.0, activation=tanh, aggregation=sum)
+	426 DefaultNodeGene(key=426, bias=-3.028094706025251, response=1.0, activation=tanh, aggregation=sum)
+	610 DefaultNodeGene(key=610, bias=-1.547247788398594, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-6, 0), weight=0.2957108046947861, enabled=True)
+	DefaultConnectionGene(key=(-3, 610), weight=0.9896641523644132, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.05429083562379569, enabled=True)
+	DefaultConnectionGene(key=(1, 426), weight=0.15828379558247674, enabled=True)Key: 3083
+Fitness: -1100.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=1.0173526479171036, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-1.1007535261081833, response=1.0, activation=tanh, aggregation=sum)
+	398 DefaultNodeGene(key=398, bias=-0.823776560425222, response=1.0, activation=tanh, aggregation=sum)
+	426 DefaultNodeGene(key=426, bias=-2.7500954580759025, response=1.0, activation=tanh, aggregation=sum)
+	610 DefaultNodeGene(key=610, bias=-2.1030194481705387, response=1.0, activation=tanh, aggregation=sum)
+	611 DefaultNodeGene(key=611, bias=1.7683918491298458, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-6, 0), weight=-0.47293628985529634, enabled=True)
+	DefaultConnectionGene(key=(-3, 610), weight=0.8986865966634112, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=-0.29110126776492334, enabled=False)
+	DefaultConnectionGene(key=(-1, 611), weight=1.1872781768832816, enabled=True)
+	DefaultConnectionGene(key=(1, 426), weight=1.0326551281913638, enabled=True)
+	DefaultConnectionGene(key=(611, 1), weight=-1.2145243320870875, enabled=True)Key: 3072
+Fitness: -1300.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=1.0173526479171036, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-1.5988983375415649, response=1.0, activation=tanh, aggregation=sum)
+	398 DefaultNodeGene(key=398, bias=-0.823776560425222, response=1.0, activation=tanh, aggregation=sum)
+	426 DefaultNodeGene(key=426, bias=-2.595307373906783, response=1.0, activation=tanh, aggregation=sum)
+	610 DefaultNodeGene(key=610, bias=-1.3059182227571473, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-6, 0), weight=-0.15798801278894592, enabled=True)
+	DefaultConnectionGene(key=(-5, 0), weight=0.7500048479159449, enabled=False)
+	DefaultConnectionGene(key=(-3, 610), weight=0.8986865966634112, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=-0.39192460109222427, enabled=True)
+	DefaultConnectionGene(key=(1, 426), weight=0.15828379558247674, enabled=True)Key: 3293
+Fitness: -1100.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=0.9735200084047742, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-1.5358834421362209, response=1.0, activation=tanh, aggregation=sum)
+	398 DefaultNodeGene(key=398, bias=-1.4200324602588197, response=1.0, activation=tanh, aggregation=sum)
+	426 DefaultNodeGene(key=426, bias=-2.615437551510038, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-6, 0), weight=-0.42312153850427653, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.24841698492367428, enabled=True)
+	DefaultConnectionGene(key=(1, 426), weight=-0.47321836036900744, enabled=True)Key: 3139
+Fitness: 78.73823972920516
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.4815769039576665, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=1.7541723495975208, response=1.0, activation=tanh, aggregation=sum)
+	625 DefaultNodeGene(key=625, bias=-1.1963988984912617, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-1, 625), weight=-0.41874509700530027, enabled=True)
+	DefaultConnectionGene(key=(625, 1), weight=0.4007169712350829, enabled=True)Key: 3200
+Fitness: 12.799997052238192
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-0.0638773269148838, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=1.7541723495975208, response=1.0, activation=tanh, aggregation=sum)
+	625 DefaultNodeGene(key=625, bias=-1.2950587122278545, response=1.0, activation=tanh, aggregation=sum)
+	638 DefaultNodeGene(key=638, bias=-0.23997891200657684, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-2, 0), weight=0.1580822239325852, enabled=True)
+	DefaultConnectionGene(key=(-1, 625), weight=-0.3619634746608852, enabled=True)
+	DefaultConnectionGene(key=(625, 1), weight=0.31606023506187836, enabled=False)
+	DefaultConnectionGene(key=(625, 638), weight=-1.266537034229026, enabled=True)
+	DefaultConnectionGene(key=(638, 1), weight=1.111138579806031, enabled=True)Key: 3201
+Fitness: 0.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=0.4417309319214641, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.9200410222967645, response=1.0, activation=tanh, aggregation=sum)
+	625 DefaultNodeGene(key=625, bias=-1.337354742799411, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-1, 0), weight=0.9343414816940578, enabled=True)
+	DefaultConnectionGene(key=(625, 1), weight=0.42351002355995027, enabled=True)Key: 3294
+Fitness: 0.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.7555249477433663, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=1.7541723495975208, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-3, 0), weight=0.5264945645457593, enabled=True)Key: 3169
+Fitness: -453081.74784372526
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-0.93487729013734, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.3219331152749562, response=1.0, activation=tanh, aggregation=sum)
+	595 DefaultNodeGene(key=595, bias=-1.7762275526394935, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-1, 595), weight=0.6233682391262748, enabled=True)
+	DefaultConnectionGene(key=(595, 1), weight=1.5818839640212476, enabled=True)Key: 3002
+Fitness: -6640.671225238454
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.582766196199037, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.11908303064618264, response=1.0, activation=tanh, aggregation=sum)
+	595 DefaultNodeGene(key=595, bias=-1.52257807817243, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-1, 1), weight=1.4336313142852952, enabled=False)
+	DefaultConnectionGene(key=(-1, 595), weight=1.2612918372050586, enabled=True)
+	DefaultConnectionGene(key=(595, 1), weight=1.0594216053414987, enabled=True)Key: 3087
+Fitness: -6640.68780927704
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-0.93487729013734, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.09507684870137079, response=1.0, activation=tanh, aggregation=sum)
+	595 DefaultNodeGene(key=595, bias=-2.010169646835874, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-1, 1), weight=2.071391395347522, enabled=False)
+	DefaultConnectionGene(key=(-1, 595), weight=1.0328883613404365, enabled=True)
+	DefaultConnectionGene(key=(595, 1), weight=1.2545740068876412, enabled=True)Key: 3295
+Fitness: 79.9544929628406
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-0.3128630642172098, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=1.7319704029855665, response=1.0, activation=tanh, aggregation=sum)
+	595 DefaultNodeGene(key=595, bias=-1.2066382157212083, response=1.0, activation=tanh, aggregation=sum)
+	662 DefaultNodeGene(key=662, bias=-1.2508369132739423, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-1, 595), weight=-0.32226025637224176, enabled=False)
+	DefaultConnectionGene(key=(-1, 662), weight=0.447067091304725, enabled=True)
+	DefaultConnectionGene(key=(595, 1), weight=1.4547172005867344, enabled=True)
+	DefaultConnectionGene(key=(662, 595), weight=0.6233682391262748, enabled=True)Key: 3170
+Fitness: 80.72845573543535
+Nodes:
+	0 DefaultNodeGene(key=0, bias=0.3986994322174569, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.252535102460265, response=1.0, activation=tanh, aggregation=sum)
+	602 DefaultNodeGene(key=602, bias=-0.6210035688459248, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-6, 602), weight=0.8059452394182389, enabled=True)
+	DefaultConnectionGene(key=(-5, 0), weight=-2.2119033374080397, enabled=False)
+	DefaultConnectionGene(key=(-1, 1), weight=6.0784076121533435, enabled=True)
+	DefaultConnectionGene(key=(0, 602), weight=0.014296360542767013, enabled=True)Key: 3152
+Fitness: 78.32751279517139
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.285098959427276, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.13994049271095702, response=1.0, activation=tanh, aggregation=sum)
+	602 DefaultNodeGene(key=602, bias=-1.1417220834958828, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-6, 602), weight=0.8949295469477394, enabled=True)
+	DefaultConnectionGene(key=(-5, 0), weight=-2.070174372907458, enabled=False)
+	DefaultConnectionGene(key=(-1, 1), weight=5.972410586596416, enabled=True)Key: 3171
+Fitness: 78.37054064041044
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.294873331428836, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.5687930140091491, response=1.0, activation=tanh, aggregation=sum)
+	602 DefaultNodeGene(key=602, bias=-0.4946840651178271, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-5, 0), weight=-1.693062085879277, enabled=False)
+	DefaultConnectionGene(key=(-1, 1), weight=6.777778333277538, enabled=True)
+	DefaultConnectionGene(key=(602, 0), weight=0.47153445687913365, enabled=True)Key: 3296
+Fitness: 78.50599790479305
+Nodes:
+	0 DefaultNodeGene(key=0, bias=1.0153459347704454, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.10088658984389112, response=1.0, activation=tanh, aggregation=sum)
+	602 DefaultNodeGene(key=602, bias=-1.9724909997795759, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-6, 602), weight=1.5383651497853863, enabled=True)
+	DefaultConnectionGene(key=(-5, 0), weight=-1.7848123386123338, enabled=False)
+	DefaultConnectionGene(key=(-1, 1), weight=5.972410586596416, enabled=True)
+	DefaultConnectionGene(key=(0, 602), weight=0.29704510069616386, enabled=True)Key: 3113
+Fitness: 292.44887585496633
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.8803906860269999, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.5618675107588798, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-3, 0), weight=0.3411953754345268, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.6950333912567501, enabled=True)Key: 3235
+Fitness: 92.72309890905865
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.0756640946090144, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.10789163592069251, response=1.0, activation=tanh, aggregation=sum)
+	647 DefaultNodeGene(key=647, bias=1.151930057434699, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-3, 0), weight=0.531560624057852, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.6950333912567501, enabled=False)
+	DefaultConnectionGene(key=(-1, 647), weight=0.8291060609403907, enabled=True)
+	DefaultConnectionGene(key=(647, 1), weight=1.0857283174592722, enabled=True)Key: 3267
+Fitness: 27.007552544595537
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-0.8359686097566664, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.8715610908049827, response=1.0, activation=tanh, aggregation=sum)
+	647 DefaultNodeGene(key=647, bias=1.1744195011907068, response=1.0, activation=tanh, aggregation=sum)
+	657 DefaultNodeGene(key=657, bias=0.4345182227290935, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-3, 0), weight=-0.31536644358229937, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.206046821936891, enabled=False)
+	DefaultConnectionGene(key=(-1, 647), weight=1.5140459521921148, enabled=False)
+	DefaultConnectionGene(key=(-1, 657), weight=1.5136946300652974, enabled=True)
+	DefaultConnectionGene(key=(647, 1), weight=1.1333340995048213, enabled=True)
+	DefaultConnectionGene(key=(657, 647), weight=1.7384913140188094, enabled=True)Key: 3297
+Fitness: 0.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.779151198869093, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.08554096883944982, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-3, 0), weight=0.7215388662325454, enabled=True)
+	DefaultConnectionGene(key=(-1, 0), weight=0.7106423624467861, enabled=True)Key: 3298
+Fitness: 28.811005556696138
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.5997161128937936, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-1.0760455043853996, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-3, 0), weight=-1.6048804708605584, enabled=True)
+	DefaultConnectionGene(key=(-1, 0), weight=0.6638702281576726, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=1.0702820888883013, enabled=True)Key: 3299
+Fitness: -900.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-0.5179318663256479, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.007272375404836162, response=1.0, activation=tanh, aggregation=sum)
+	647 DefaultNodeGene(key=647, bias=1.151930057434699, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-3, 0), weight=0.531560624057852, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.397471244389238, enabled=False)
+	DefaultConnectionGene(key=(-1, 647), weight=1.0183950660774552, enabled=True)
+	DefaultConnectionGene(key=(647, 1), weight=-1.1593299652447564, enabled=True)Key: 3300
+Fitness: 0.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.3869657797852248, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.5618675107588798, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-3, 0), weight=0.5929845337635512, enabled=True)Key: 3021
+Fitness: 292.44887585496633
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.10296574700035, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.5618675107588798, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 0), weight=0.37073121502519807, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=1.1064718506396967, enabled=True)Key: 2859
+Fitness: 289.2169041267043
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.8803906860269999, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.3742430353574203, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 0), weight=0.38817510011369016, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.7577818477669991, enabled=True)Key: 3240
+Fitness: 292.64299886030483
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.2168875973347983, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.044463799054253794, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 0), weight=0.4712686228507864, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=2.1294752785785582, enabled=True)Key: 3301
+Fitness: 77.94024859584667
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.1383710314949536, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.57125934898402, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-1, 1), weight=0.9459815118668489, enabled=True)Key: 3302
+Fitness: 0.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.1659202228340986, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.4062464596391886, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 0), weight=0.20357560806945288, enabled=True)Key: 3303
+Fitness: 77.68494797987509
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.8803906860269999, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.3153771402503798, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-1, 1), weight=1.6596807540605059, enabled=True)Key: 3304
+Fitness: 292.2324746025357
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.8595932889046054, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=1.1946165522805638, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-2, 0), weight=0.6199439648703057, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.9486986813813588, enabled=True)Key: 3305
+Fitness: 26.947196953780512
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.8803906860269999, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.2576223495323529, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-6, 0), weight=0.06196590813996705, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.4135837928012761, enabled=True)Key: 3306
+Fitness: 223.97509087993927
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.188684884100698, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.005693897706493423, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-5, 0), weight=0.9518156468899489, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.5727491959334239, enabled=True)Key: 3307
+Fitness: 0.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.987589899888443, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.24386199910416698, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 0), weight=0.2895812828504959, enabled=True)Key: 3308
+Fitness: 282.4161608701793
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.8803906860269999, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.2895712932194156, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 0), weight=0.38817510011369016, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.9121274380897206, enabled=True)Key: 3309
+Fitness: 26.58068984754931
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.1657625785481516, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.5618675107588798, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 0), weight=0.1603368140669913, enabled=True)
+	DefaultConnectionGene(key=(-1, 1), weight=0.94377732170086, enabled=True)Key: 3124
+Fitness: 299.1847845757612
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.346010970112165, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.9304168443631698, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.5558972667057331, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-0.24561204633403494, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=1.0998740608450046, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 519), weight=-0.6251104439289639, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=0.8322623309395591, enabled=False)
+	DefaultConnectionGene(key=(-2, 0), weight=0.3749287646805457, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=1.9008996052725105, enabled=True)
+	DefaultConnectionGene(key=(-2, 427), weight=0.5103104921369943, enabled=True)
+	DefaultConnectionGene(key=(-1, 427), weight=1.178128470981026, enabled=True)Key: 3225
+Fitness: 299.4954839329517
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.4435892749367936, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.516913474200846, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.036259108148957664, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-1.4305833490691482, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=1.1868683770428357, response=1.0, activation=tanh, aggregation=sum)
+	644 DefaultNodeGene(key=644, bias=-0.2699545133507906, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 519), weight=-0.7757273861696344, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=0.1853875198423699, enabled=True)
+	DefaultConnectionGene(key=(-3, 644), weight=1.0643361695044602, enabled=True)
+	DefaultConnectionGene(key=(-2, 0), weight=0.3749287646805457, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=1.468586252844086, enabled=True)
+	DefaultConnectionGene(key=(-2, 427), weight=0.8842693827163899, enabled=True)
+	DefaultConnectionGene(key=(-1, 427), weight=1.178128470981026, enabled=True)
+	DefaultConnectionGene(key=(644, 477), weight=1.7981679896509855, enabled=True)Key: 3197
+Fitness: 291.9617671751568
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.1809081255772584, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.6265675345433923, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.17105975514842892, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-0.38430446740269, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=0.06218590642312827, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-5, 519), weight=-0.8756400861436495, enabled=True)
+	DefaultConnectionGene(key=(-4, 519), weight=-0.1282362554429649, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=0.8713756049383172, enabled=False)
+	DefaultConnectionGene(key=(-2, 0), weight=0.3749287646805457, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=2.1409564416988003, enabled=True)
+	DefaultConnectionGene(key=(-2, 427), weight=1.5687792617745735, enabled=False)
+	DefaultConnectionGene(key=(-1, 427), weight=1.7244963930436754, enabled=True)Key: 3310
+Fitness: 12.770700316646248
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-0.18768265825474026, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.9304168443631698, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.1598909297863374, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-1.156778371001327, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=1.3520004223123816, response=1.0, activation=tanh, aggregation=sum)
+	664 DefaultNodeGene(key=664, bias=-0.3235799474070107, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-6, 477), weight=-0.9325605650419744, enabled=True)
+	DefaultConnectionGene(key=(-4, 519), weight=-0.24924942829012242, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=0.5171229654621607, enabled=False)
+	DefaultConnectionGene(key=(-3, 664), weight=0.5935803802762256, enabled=True)
+	DefaultConnectionGene(key=(-2, 0), weight=1.9720541533606786, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=1.7183541935049607, enabled=True)
+	DefaultConnectionGene(key=(-2, 427), weight=0.06644197736504587, enabled=True)
+	DefaultConnectionGene(key=(-1, 427), weight=0.4235691037202727, enabled=True)
+	DefaultConnectionGene(key=(664, 477), weight=1.740349747814677, enabled=True)Key: 3311
+Fitness: 78.01636700097988
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.6935110001480322, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.21538143596094622, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.07273568136172856, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-1.2620047093381654, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=-0.34803971042748555, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 519), weight=-1.3319752707984729, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=1.5341665805762155, enabled=True)
+	DefaultConnectionGene(key=(-2, 0), weight=1.1061611240484261, enabled=False)
+	DefaultConnectionGene(key=(-2, 1), weight=0.2342348058117155, enabled=True)
+	DefaultConnectionGene(key=(-2, 427), weight=1.1367738793085933, enabled=False)
+	DefaultConnectionGene(key=(-1, 427), weight=1.6637300246724804, enabled=True)Key: 3312
+Fitness: 0.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.7849949988961176, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-1.1763185573479578, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.49331216310589654, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=-0.1694848322629677, response=1.0, activation=tanh, aggregation=sum)
+	644 DefaultNodeGene(key=644, bias=-0.2699545133507906, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 519), weight=0.4293279249833518, enabled=True)
+	DefaultConnectionGene(key=(-3, 644), weight=1.2259847843450158, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=2.0092671117801313, enabled=False)
+	DefaultConnectionGene(key=(-2, 427), weight=0.7237748839472823, enabled=True)
+	DefaultConnectionGene(key=(-1, 427), weight=0.16690843960753687, enabled=True)
+	DefaultConnectionGene(key=(519, 0), weight=-1.011299569161997, enabled=True)Key: 3313
+Fitness: 0.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.2724140112476903, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.516913474200846, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-0.3324639359905973, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=1.4001570820614968, response=1.0, activation=tanh, aggregation=sum)
+	644 DefaultNodeGene(key=644, bias=-0.5545824032214848, response=1.0, activation=tanh, aggregation=sum)
+	665 DefaultNodeGene(key=665, bias=-0.02438430477757403, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 519), weight=0.4293279249833518, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=-0.09171780263873586, enabled=True)
+	DefaultConnectionGene(key=(-3, 644), weight=0.1550401508973409, enabled=True)
+	DefaultConnectionGene(key=(-2, 0), weight=0.19130637972616918, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=1.926646406869668, enabled=False)
+	DefaultConnectionGene(key=(-1, 665), weight=0.5862852063670967, enabled=True)
+	DefaultConnectionGene(key=(644, 477), weight=1.6607916903188313, enabled=True)Key: 3314
+Fitness: 282.9491845767768
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.8959102731591424, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.13032435709526735, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.03207699768455152, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-1.405963180134511, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=1.0998740608450046, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 519), weight=-1.1746472220440431, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=-0.2398876786452407, enabled=False)
+	DefaultConnectionGene(key=(-2, 0), weight=0.7844921046375899, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=1.9692650825409763, enabled=True)
+	DefaultConnectionGene(key=(-2, 427), weight=0.5103104921369943, enabled=True)
+	DefaultConnectionGene(key=(-1, 427), weight=1.1709088137354613, enabled=True)Key: 3315
+Fitness: 0.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.433761013933097, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=0.9304168443631698, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.5558972667057331, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-1.0630035773155462, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=1.5584258558839867, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 519), weight=-0.8989073224176727, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=1.415248576062177, enabled=False)
+	DefaultConnectionGene(key=(-2, 0), weight=0.23501862093809853, enabled=True)
+	DefaultConnectionGene(key=(-2, 427), weight=-0.11729733730728902, enabled=True)
+	DefaultConnectionGene(key=(-1, 427), weight=1.7579969529980592, enabled=True)
+	DefaultConnectionGene(key=(-1, 477), weight=-1.8815290883438212, enabled=True)Key: 3316
+Fitness: 28.79557858987596
+Nodes:
+	0 DefaultNodeGene(key=0, bias=0.27146877736453995, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=1.3935835883163832, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.5558972667057331, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=0.03168982681484395, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=1.0998740608450046, response=1.0, activation=tanh, aggregation=sum)
+	666 DefaultNodeGene(key=666, bias=-0.4509186642815024, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-6, 0), weight=-0.9811542746559124, enabled=True)
+	DefaultConnectionGene(key=(-4, 519), weight=-0.7846735920645989, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=0.77769444984201, enabled=False)
+	DefaultConnectionGene(key=(-2, 0), weight=-0.48105463735250065, enabled=False)
+	DefaultConnectionGene(key=(-2, 1), weight=3.140281923278685, enabled=True)
+	DefaultConnectionGene(key=(-2, 427), weight=0.23257891204709463, enabled=True)
+	DefaultConnectionGene(key=(-2, 666), weight=1.2838007275624044, enabled=True)
+	DefaultConnectionGene(key=(-1, 427), weight=1.894874192737835, enabled=True)
+	DefaultConnectionGene(key=(666, 0), weight=0.2129465033903999, enabled=True)Key: 3317
+Fitness: 287.662573020527
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.9086532320688758, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=1.0337011953580906, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-1.194211293354895, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=0.26171833418083623, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=-0.15493818470246742, response=1.0, activation=tanh, aggregation=sum)
+	667 DefaultNodeGene(key=667, bias=-0.11054064680250271, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-5, 519), weight=-0.10007445348996691, enabled=True)
+	DefaultConnectionGene(key=(-4, 519), weight=0.2563285405206693, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=0.11857348823663616, enabled=False)
+	DefaultConnectionGene(key=(-2, 0), weight=0.7416522842891088, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=1.9274465231028914, enabled=True)
+	DefaultConnectionGene(key=(-2, 427), weight=1.5687792617745735, enabled=False)
+	DefaultConnectionGene(key=(-1, 427), weight=1.4537379840883036, enabled=True)
+	DefaultConnectionGene(key=(427, 1), weight=2.1698190161945425, enabled=True)
+	DefaultConnectionGene(key=(667, 477), weight=0.822071357448725, enabled=True)Key: 3318
+Fitness: 292.4954839329517
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.4435892749367936, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.516913474200846, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.5877455995302973, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-0.13275424172597466, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=-0.03762350354602306, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 519), weight=-0.26066447806926696, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=0.020309506263290228, enabled=True)
+	DefaultConnectionGene(key=(-2, 0), weight=0.4403020382010268, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=1.6981945130254386, enabled=True)
+	DefaultConnectionGene(key=(-2, 427), weight=1.0115443949690293, enabled=True)
+	DefaultConnectionGene(key=(-1, 427), weight=1.178128470981026, enabled=True)Key: 3319
+Fitness: 28.789845281279216
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-2.9497632153346425, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=1.1108728211816445, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-0.4401502109202486, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=-0.042666970612861364, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-4, 519), weight=-0.5827285452145395, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=0.2811609856380125, enabled=True)
+	DefaultConnectionGene(key=(-2, 0), weight=0.1281575768382102, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=1.9911373793974294, enabled=True)
+	DefaultConnectionGene(key=(519, 1), weight=-1.0932176523196557, enabled=True)Key: 3320
+Fitness: 0.0
+Nodes:
+	0 DefaultNodeGene(key=0, bias=-1.6398695255385574, response=1.0, activation=tanh, aggregation=sum)
+	1 DefaultNodeGene(key=1, bias=-0.8377221851061704, response=1.0, activation=tanh, aggregation=sum)
+	427 DefaultNodeGene(key=427, bias=-0.2948260707048927, response=1.0, activation=tanh, aggregation=sum)
+	477 DefaultNodeGene(key=477, bias=-0.471120022001841, response=1.0, activation=tanh, aggregation=sum)
+	519 DefaultNodeGene(key=519, bias=-0.1694848322629677, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-5, 519), weight=0.3503201872373185, enabled=True)
+	DefaultConnectionGene(key=(-4, 519), weight=0.2436420649614109, enabled=True)
+	DefaultConnectionGene(key=(-3, 477), weight=0.5489826736232359, enabled=False)
+	DefaultConnectionGene(key=(-2, 0), weight=0.2613821539876881, enabled=True)
+	DefaultConnectionGene(key=(-2, 1), weight=2.631915829568615, enabled=False)
+	DefaultConnectionGene(key=(-2, 427), weight=0.50198687562631, enabled=False)
+	DefaultConnectionGene(key=(-1, 427), weight=1.8738723379345024, enabled=True)

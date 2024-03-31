@@ -65,7 +65,7 @@ dt = 0.5
 BASE_TIME = 300
 MAX_TIME = 3000
 
-LAP_REWARD = 1000
+LAP_REWARD = 100
 
 # Game loop
 """while running:
@@ -142,9 +142,6 @@ def run_simulation(genomes, config):
         game_map = pygame.image.load(track_image_path).convert() # Convert Speeds Up A Lot
         #print("init")
 
-        #global current_generation
-        current_generation += 1
-
         if current_generation % 5 == 0:
             index = list(Maps.keys()).index(Current_Track)
             index = (index+1)%len(Maps)
@@ -166,7 +163,6 @@ def run_simulation(genomes, config):
 
             for i, car in enumerate(cars):
                 outputs = nets[i].activate(car.get_data())
-                outputs = np.array(outputs)
                 # Old Movement system with 4 output neurons  
 
                 # steering_choice = [0 if output > 0 else 1 for output in outputs[:2]]
@@ -184,10 +180,10 @@ def run_simulation(genomes, config):
                 # elif accelerate_choice[1] == 1:
                 #     accelerate = -1
 
-                print("before:", outputs)
-                output = (2 / (1 + np.exp(-outputs))) - 1 # Applying a logistic function to clamp between -1 to 1
-                print("after:", output)
-                car.move(dt, output[0], output[1])
+                # print("before:", outputs)
+                # output = (2 / (1 + np.exp(-outputs))) - 1 # Applying a logistic function to clamp between -1 to 1
+                # print("after:", output)
+                car.move(dt, outputs[0], outputs[1])
 
                 # if car.steering:
                 #     turning_radius = car.length / sin(radians(car.steering))
@@ -224,7 +220,7 @@ def run_simulation(genomes, config):
                         best_car = car
                         Best_Fitness = max(Best_Fitness,car.get_reward())
                     still_alive += 1
-                    car.update(screen,dt,track_border,track_border_mask,config)
+                    car.update(screen, dt, track_border, track_border_mask, start_mask, start_rect.topleft)
 
             counter += 1
             if still_alive == 0 or counter == 600:
@@ -247,7 +243,7 @@ def run_simulation(genomes, config):
                 if car.is_alive(track_border_mask):
                     still_alive += 1
                     car.update(screen,dt,track_border,track_border_mask, start_mask, start_rect.topleft)
-                    genomes[i][1].fitness = car.get_reward() + car.lap * LAP_REWARD
+                    genomes[i][1].fitness += car.get_reward() + car.lap * LAP_REWARD
 
             counter += 1
             if still_alive == 0 or counter >= generation_time:
