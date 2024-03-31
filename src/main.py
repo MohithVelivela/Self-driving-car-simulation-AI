@@ -3,6 +3,7 @@ from player import Player
 import neat
 import sys
 from math import sin, radians, degrees, copysign
+import numpy as np
 import math
 import time
 """from neat.activations import ActivationFunctionSet
@@ -164,23 +165,29 @@ def run_simulation(genomes, config):
                     sys.exit(0)
 
             for i, car in enumerate(cars):
-                output = nets[i].activate(car.get_data())
-                steering_choice = [0 if output > 0 else 1 for output in output[:2]]
-                accelerate_choice = [0 if output > 0 else 1 for output in output[2:]]
+                outputs = nets[i].activate(car.get_data())
+                outputs = np.array(outputs)
+                # Old Movement system with 4 output neurons  
 
-                steering, accelerate = 0, 0
+                # steering_choice = [0 if output > 0 else 1 for output in outputs[:2]]
+                # accelerate_choice = [0 if output > 0 else 1 for output in outputs[2:]]
 
-                if steering_choice[0] == 1:
-                    steering = 1
-                elif steering_choice[1] == 1:
-                    steering = -1
+                # steering, accelerate = 0, 0
 
-                if accelerate_choice[0] == 1:
-                    accelerate = 1
-                elif accelerate_choice[1] == 1:
-                    accelerate = -1
+                # if steering_choice[0] == 1:
+                #     steering = 1
+                # elif steering_choice[1] == 1:
+                #     steering = -1
 
-                car.move(dt, steering, accelerate)
+                # if accelerate_choice[0] == 1:
+                #     accelerate = 1
+                # elif accelerate_choice[1] == 1:
+                #     accelerate = -1
+
+                print("before:", outputs)
+                output = (2 / (1 + np.exp(-outputs))) - 1 # Applying a logistic function to clamp between -1 to 1
+                print("after:", output)
+                car.move(dt, output[0], output[1])
 
                 # if car.steering:
                 #     turning_radius = car.length / sin(radians(car.steering))

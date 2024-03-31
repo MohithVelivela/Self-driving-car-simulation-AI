@@ -150,16 +150,16 @@ class Player(pygame.sprite.Sprite):
     def move(self, dt, steering, accelerate):
         pressed = pygame.key.get_pressed()
 
-        if accelerate == 1:
+        if accelerate > 0:
             if self.velocity.x < 0:
                 self.acceleration = self.brake_deceleration
             else:
-                self.acceleration += 1 * dt
-        elif accelerate == -1:
+                self.acceleration += accelerate * dt
+        elif accelerate < 0:
             if self.velocity.x > 0:
                 self.acceleration = -self.brake_deceleration
             else:
-                self.acceleration -= 1 * dt
+                self.acceleration += accelerate * dt
                 #self.acceleration = 0
         elif pressed[pygame.K_SPACE]:
             if abs(self.velocity.x) > dt * self.brake_deceleration:
@@ -174,10 +174,11 @@ class Player(pygame.sprite.Sprite):
                     self.acceleration = -self.velocity.x / dt
         self.acceleration = max(-self.max_acceleration, min(self.acceleration, self.max_acceleration))
 
-        if steering == 1:
-            self.steering -= self.rotate_speed * dt
-        elif steering == -1:
-            self.steering += self.rotate_speed * dt
+        # TODO: Replace with one equation
+        if steering > 0:
+            self.steering -= self.rotate_speed * dt * steering
+        elif steering < 0:
+            self.steering += self.rotate_speed * dt * abs(steering)
         else:
             self.steering = 0
         self.steering = max(-self.max_steering, min(self.steering, self.max_steering))    
