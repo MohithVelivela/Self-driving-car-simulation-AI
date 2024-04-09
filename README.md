@@ -1,5 +1,8 @@
 # Self-driving-car-simulation-AI
 
+pip install requirements.txt
+
+We have simulated a self driving car using NEAT algorithm
 ## Challenges Faced
 
 ### Reward Function 
@@ -7,7 +10,9 @@
   + Oscillations
   + Vibration
 
-**TODO:** Come up with a better way to calculate reward
+### Updated reward function:
++ based on laps covered and distance travelled.
+
 
 ### Performance
 
