@@ -8,7 +8,7 @@ CAR_SIZE_Y = 60
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=1.5, max_acceleration=1):
+    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=1, max_acceleration=1):
         pygame.sprite.Sprite.__init__(self, self.containers)
 
         # Assigning all the player variable and initial setup
@@ -30,10 +30,9 @@ class Player(pygame.sprite.Sprite):
         self.steering = 0.0                                                        
         self.speed = 5
         self.lap = 0
-        self.rotate_speed = 60
+        self.rotate_speed = 0.1
         self.alive = True
         self.dist_travelled = 0 
-        self.time = 0
 
         self.rotated_image = self.image
 
@@ -46,6 +45,9 @@ class Player(pygame.sprite.Sprite):
         self.distance = []
 
         self.cooldown = 0
+
+        self.last_steer = 0.0
+        self.punish = 0
 
     def cast_rays(self, border : pygame.image, offset_angle = 0):
         length = 0
@@ -103,14 +105,10 @@ class Player(pygame.sprite.Sprite):
             angular_velocity = self.velocity.x / turning_radius
         else:
             angular_velocity = 0    
-
-        # if self.acceleration < 0 and self.velocity.x < 0:
-        #     print("going back")
             
         #self.move(dt)
         # Calculate distance travelled
         self.dist_travelled += self.get_magnitude(self.velocity)
-        self.time += 1
         # Drawing the player
         rotated = pygame.transform.rotate(self.image, self.angle)
         self.rotated_image = rotated
@@ -172,16 +170,20 @@ class Player(pygame.sprite.Sprite):
         self.acceleration = max(-self.max_acceleration, min(self.acceleration, self.max_acceleration))
 
         # TODO: Replace with one equation
+        if abs(self.last_steer - steering) > 0.2:
+            self.punish = 1
+        else:
+            self.punish = 0
+
         if steering > 0:
-            self.steering -= self.rotate_speed * dt * steering
-            self.velocity.x -= self.velocity.x * steering * 0.01
+            self.steering -= self.rotate_speed * dt * steering * 10
         elif steering < 0:
-            self.steering += self.rotate_speed * dt * abs(steering)
-            self.velocity.x -= self.velocity.x * abs(steering) * 0.01
+            self.steering += self.rotate_speed * dt * abs(steering) * 10
         else:
             self.steering = 0
         self.steering = max(-self.max_steering, min(self.steering, self.max_steering))    
-    
+        self.last_steer = steering
+
 
     def collide(self, mask, x=0, y=0):
         car_mask = pygame.mask.from_surface(self.rotated_image)
@@ -197,10 +199,10 @@ class Player(pygame.sprite.Sprite):
         self.angle = 0.0
 
     def get_data(self):
-        distance = self.distance
-        return_values = [0, 0, 0, 0, 0, self.get_magnitude(self.velocity)]
-        for i, radar in enumerate(distance):
-            return_values[i] = int(distance[1] / 30)
+        speed = self.get_magnitude(self.velocity)/self.max_velocity     # Divide by max vel to normalize the input from 0 to 1
+        return_values = [0, 0, 0, 0, 0, speed]
+        for i, radar in enumerate(self.distance):
+            return_values[i] = int(self.distance[1] / 30)  # Divide by 30 to normalize
 
         return return_values
     

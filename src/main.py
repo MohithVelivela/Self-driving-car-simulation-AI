@@ -42,7 +42,7 @@ Maps = { "Oval" : ["src/assets/imgs/Oval_track.png","src/assets/imgs/Oval_track.
       "F100" : ["src/assets/imgs/F100.png", "src/assets/imgs/F100.png", pygame.Vector2(2000, 450)]
 	}
 
-Current_Track = "Oval"
+Current_Track = "F100"
 
 WIDTH = 1280
 HEIGHT = 720
@@ -122,6 +122,7 @@ def run_simulation(genomes, config):
             index = list(Maps.keys()).index(Current_Track)
             index = (index+1)%len(Maps)
             Current_Track = list(Maps.keys())[index]
+        Current_Track = "F100"
 
         # Simple Counter To Roughly Limit Time (Not Good Practice)
         counter = 0
@@ -138,27 +139,29 @@ def run_simulation(genomes, config):
             def calculate_output(net, car):
                  return net.activate(car.get_data())
 
+            outputs = []
             with ThreadPoolExecutor() as executor:
                 futures = [executor.submit(calculate_output, net, car) for net, car in zip(nets, cars)]
                 outputs = [future.result() for future in futures]
             for i, output in enumerate(outputs):
-                if cars[i].is_alive:
                     cars[i].move(dt, output[0], output[1])
             
             # Check If Car Is Still Alive
             # Increase Fitness If Yes And Break Loop If Not
             still_alive = 0
             best_car : Player = cars[0]
+            best_car_ind = 0
             max_dist = 0.0
             for i, car in enumerate(cars):
                 if car.is_alive(track_border_mask):
                     if max_dist < car.dist_travelled:
                         max_dist = car.dist_travelled
                         best_car = car
+                        best_car_ind = i
                         Best_Fitness = max(Best_Fitness,car.get_reward())
                     still_alive += 1
                     car.update(screen, dt, track_border, track_border_mask, start_mask, start_rect.topleft)
-                    genomes[i][1].fitness += car.get_reward() + car.lap * LAP_REWARD
+                    genomes[i][1].fitness += car.get_reward() + car.lap * LAP_REWARD - car.punish * 10
 
             counter += 1
             if still_alive == 0 or counter >= generation_time:
