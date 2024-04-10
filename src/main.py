@@ -11,6 +11,13 @@ from concurrent.futures import ThreadPoolExecutor
 config_path = "src/config.txt"
 config = neat.config.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,config_path)
 
+stats_file = "stats.csv"
+
+# Clearing the stats file
+with open(stats_file, 'w') as f:
+    f.write("")
+
+
 # Setting up pygame and window
 pygame.init()
 
@@ -55,7 +62,7 @@ dt = 0.5
 BASE_TIME = 300
 MAX_TIME = 3000
 
-LAP_REWARD = 100
+LAP_REWARD = 10
 
 
 def run_simulation(genomes, config):
@@ -142,11 +149,11 @@ def run_simulation(genomes, config):
             # Increase Fitness If Yes And Break Loop If Not
             still_alive = 0
             best_car : Player = cars[0]
-            max_distance = 0.0
+            max_dist = 0.0
             for i, car in enumerate(cars):
                 if car.is_alive(track_border_mask):
-                    if max_distance < car.dist_travelled:
-                        max_distance = car.dist_travelled
+                    if max_dist < car.dist_travelled:
+                        max_dist = car.dist_travelled
                         best_car = car
                         Best_Fitness = max(Best_Fitness,car.get_reward())
                     still_alive += 1
@@ -155,6 +162,8 @@ def run_simulation(genomes, config):
 
             counter += 1
             if still_alive == 0 or counter >= generation_time:
+                with open(stats_file, 'a') as f:
+                    f.write(f"{current_generation},{best_car.dist_travelled/100},{best_car.lap},{still_alive}\n")
                 break
 
             # Drawing the background 
