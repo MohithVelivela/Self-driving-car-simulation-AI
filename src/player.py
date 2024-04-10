@@ -2,16 +2,13 @@ import pygame
 from math import sin, radians, degrees, copysign
 import math
 from pygame.math import Vector2
-import time
-import neat
-
 
 CAR_SIZE_X = 60    
 CAR_SIZE_Y = 60
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=1, max_acceleration=1):
+    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=1.5, max_acceleration=1):
         pygame.sprite.Sprite.__init__(self, self.containers)
 
         # Assigning all the player variable and initial setup
@@ -26,14 +23,14 @@ class Player(pygame.sprite.Sprite):
         self.length = length
         self.max_acceleration = max_acceleration
         self.max_steering = max_steering
-        self.max_velocity = 35
+        self.max_velocity = 30
         self.brake_deceleration = 10
         self.free_deceleration = 0.5
         self.acceleration = 0.0
         self.steering = 0.0                                                        
         self.speed = 5
         self.lap = 0
-        self.rotate_speed = 40
+        self.rotate_speed = 60
         self.alive = True
         self.dist_travelled = 0 
         self.time = 0
@@ -177,20 +174,14 @@ class Player(pygame.sprite.Sprite):
         # TODO: Replace with one equation
         if steering > 0:
             self.steering -= self.rotate_speed * dt * steering
-            #self.velocity.x -= self.velocity.x * (1/steering) * 0.01
+            self.velocity.x -= self.velocity.x * steering * 0.01
         elif steering < 0:
             self.steering += self.rotate_speed * dt * abs(steering)
-            #self.velocity.x -= self.velocity.x * (1/abs(steering)) * 0.01
+            self.velocity.x -= self.velocity.x * abs(steering) * 0.01
         else:
             self.steering = 0
         self.steering = max(-self.max_steering, min(self.steering, self.max_steering))    
     
-
-    def bounce(self):
-        if False:
-            self.velocity = Vector2(0,0)
-        else:
-            self.velocity = -self.velocity
 
     def collide(self, mask, x=0, y=0):
         car_mask = pygame.mask.from_surface(self.rotated_image)
@@ -226,8 +217,7 @@ class Player(pygame.sprite.Sprite):
 
     def get_magnitude(self, vector : Vector2):
         return (vector.x**2 + vector.y**2)**0.5 
-
-    # TODO should add Lap counter    
+    
 
 
 
