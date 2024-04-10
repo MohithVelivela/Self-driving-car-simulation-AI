@@ -2,24 +2,20 @@ import pygame
 from math import sin, radians, degrees, copysign
 import math
 from pygame.math import Vector2
-import time
-import neat
-
 
 CAR_SIZE_X = 60    
 CAR_SIZE_Y = 60
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, x=500, y=800, image = pygame.image.load("assets/imgs/pink_car-new.png"), angle=0.0, length=4, max_steering=2, max_acceleration=1.0):
+    def __init__(self, x, y, image, angle=0.0, length=4, max_steering=1.5, max_acceleration=1):
         pygame.sprite.Sprite.__init__(self, self.containers)
 
         # Assigning all the player variable and initial setup
-        #self.image = pygame.image.load(image)
-        self.image = image
+        self.image = pygame.image.load(image)
         #print(self.image.get_width())
-        self.image = pygame.transform.scale(self.image, (int(self.image.get_width()), 
-                                                        int(self.image.get_height())))
+        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.2), 
+                                                        int(self.image.get_height() * 0.2)))
         #print(self.image.get_width())
         self.position = Vector2(x, y)
         self.velocity = Vector2(0.0, 0.0)
@@ -27,13 +23,11 @@ class Player(pygame.sprite.Sprite):
         self.length = length
         self.max_acceleration = max_acceleration
         self.max_steering = max_steering
-        self.max_velocity = 25 
+        self.max_velocity = 30
         self.brake_deceleration = 10
         self.free_deceleration = 0.5
         self.acceleration = 0.0
         self.steering = 0.0                                                        
-        self.width = 100
-        self.height = 50
         self.speed = 5
         self.lap = 0
         self.rotate_speed = 60
@@ -41,14 +35,17 @@ class Player(pygame.sprite.Sprite):
         self.dist_travelled = 0 
         self.time = 0
 
+        self.rotated_image = self.image
+
         self.bounce_force = 0.5
 
-        self.rect = pygame.Rect(x, y, self.width, self.height)
+        self.rect = pygame.Rect(x, y, self.image.get_width(), self.image.get_height())
 
         # RayCast
         self.raycasts = []
         self.distance = []
-        #self.final = []
+
+        self.cooldown = 0
 
     def cast_rays(self, border : pygame.image, offset_angle = 0):
         length = 0
@@ -57,7 +54,7 @@ class Player(pygame.sprite.Sprite):
         y = int(self.rect.center[1] + math.sin(math.radians(360 - (self.angle + offset_angle))) * length)
 
         # While We Don't Hit BORDER_COLOR AND length < 300 (just a max) -> go further and further
-        while border.get_at((x, y)).a == 0:
+        while border.get_at((x, y)).a == 0 and length < 300:
             length = length + 1
             x = int(self.rect.center[0] + math.cos(math.radians(360 - (self.angle + offset_angle))) * length)
             y = int(self.rect.center[1] + math.sin(math.radians(360 - (self.angle + offset_angle))) * length)
@@ -73,25 +70,29 @@ class Player(pygame.sprite.Sprite):
         print(self.final)
         print("len is 5")"""
     
-    def draw(self,screen):
-        screen.blit(self.image, self.position) # Draw Sprite
-        self.draw_radar(screen) #OPTIONAL FOR SENSORS
-        
+    def draw(self,screen, offset : Vector2):
+        #self.draw_radar(screen, offset) #OPTIONAL FOR SENSORS
+        screen.blit(self.rotated_image, self.position - offset) # Draw Sprite
         
 
-    def draw_radar(self, screen):
+    def draw_radar(self, screen, offset):
         # Optionally Draw All Sensors / Radars
         for radar in self.raycasts:
             position = radar[0]
-            pygame.draw.line(screen, (0, 255, 0), self.rect.center, position, 1)
-            pygame.draw.circle(screen, (0, 255, 0), position, 5)
+            pygame.draw.line(screen, (0, 0, 255), self.rect.center, position, 1)
+            pygame.draw.circle(screen, (0, 0, 255), position, 5)
 
-    def update(self, screen,dt, track_border : pygame.image, track_border_mask : pygame.mask,config):
+    def update(self, screen,dt, track_border : pygame.image, track_border_mask : pygame.mask, start_mask, offset : Vector2):
         # This function is called once a frame
 
-        for offset in range(-90, 120, 45):
-            self.cast_rays(track_border, offset_angle = offset)
-        self.draw_radar(screen)
+        self.cooldown = max(0, self.cooldown - 1)
+
+        self.raycasts.clear()
+        self.distance.clear()
+
+        for angle_offset in range(-90, 120, 45):
+            self.cast_rays(track_border, offset_angle = angle_offset)
+        #self.draw_radar(screen)
         
 
         self.velocity += (self.acceleration * dt, 0)
@@ -103,53 +104,60 @@ class Player(pygame.sprite.Sprite):
         else:
             angular_velocity = 0    
 
+        # if self.acceleration < 0 and self.velocity.x < 0:
+        #     print("going back")
+            
         #self.move(dt)
-        
-        self.dist_travelled += (self.velocity.x**2 + self.velocity.y**2)**0.5 
+        # Calculate distance travelled
+        self.dist_travelled += self.get_magnitude(self.velocity)
         self.time += 1
         # Drawing the player
         rotated = pygame.transform.rotate(self.image, self.angle)
+        self.rotated_image = rotated
         rect = rotated.get_rect(center=self.image.get_rect(topleft = self.position).center)
-	
-        if self.collide(track_border_mask):
-            #TODO Replace with reset to end the game
-            font = pygame.font.Font(None, 72)
-            self.reset()
-            self.position = Vector2(500, 800)  
-            screen.blit(font.render("Game Over! Better Luck Next time", True, (255, 0, 0)), (600, 500))
-            pygame.display.flip()
-            time.sleep(1)
-            
-            #self.bounce()
 
         self.position += self.velocity.rotate(-self.angle) * dt
         self.angle += degrees(angular_velocity) * dt
         self.rect = rect
 
         #pygame.draw.rect(screen, (0, 255, 0), self.rect)
-        screen.blit(rotated, self.rect)
+        #screen.blit(rotated, self.rect)
+	
+        if self.collide(track_border_mask):
+            font = pygame.font.Font(None, 72)
+            #self.reset()
+            #self.position = Vector2(500, 800)  
+            #screen.blit(font.render("Game Over! Better Luck Next time", True, (255, 0, 0)), (600, 500))
+            self.alive = False
+            #time.sleep(1)
+            
+            #self.bounce()
+        
 
-        self.raycasts.clear()
-        self.distance.clear()
-       # self.final.clear()
+        start_collide_poi = self.collide(start_mask, *offset)
+        if start_collide_poi != None:
+            if self.cooldown == 0:
+                if start_collide_poi[0] == 0:
+                    self.lap += 1
+                    self.cooldown = 150
+                else:
+                    self.lap -= 1
+                    self.cooldown = 150
 
-        """if self.is_lap_completed():
-            self.lap_counter += 1
-            print("Lap completed. Total laps:", self.lap_counter)"""
-
-    def move(self, dt):
+    def move(self, dt, steering, accelerate):
         pressed = pygame.key.get_pressed()
 
-        if pressed[pygame.K_w]:
+        if accelerate > 0:
             if self.velocity.x < 0:
                 self.acceleration = self.brake_deceleration
             else:
-                self.acceleration += 1 * dt
-        elif pressed[pygame.K_s]:
+                self.acceleration += accelerate * dt
+        elif accelerate < 0:
             if self.velocity.x > 0:
                 self.acceleration = -self.brake_deceleration
             else:
-                self.acceleration -= 1 * dt
+                self.acceleration += accelerate * dt
+                #self.acceleration = 0
         elif pressed[pygame.K_SPACE]:
             if abs(self.velocity.x) > dt * self.brake_deceleration:
                 self.acceleration = -copysign(self.brake_deceleration, self.velocity.x)
@@ -163,27 +171,25 @@ class Player(pygame.sprite.Sprite):
                     self.acceleration = -self.velocity.x / dt
         self.acceleration = max(-self.max_acceleration, min(self.acceleration, self.max_acceleration))
 
-        if pressed[pygame.K_d]:
-            self.steering -= self.rotate_speed * dt
-        elif pressed[pygame.K_a]:
-            self.steering += self.rotate_speed * dt
+        # TODO: Replace with one equation
+        if steering > 0:
+            self.steering -= self.rotate_speed * dt * steering
+            self.velocity.x -= self.velocity.x * steering * 0.01
+        elif steering < 0:
+            self.steering += self.rotate_speed * dt * abs(steering)
+            self.velocity.x -= self.velocity.x * abs(steering) * 0.01
         else:
             self.steering = 0
         self.steering = max(-self.max_steering, min(self.steering, self.max_steering))    
     
 
-    def bounce(self):
-        if False:
-            self.velocity = Vector2(0,0)
-        else:
-            self.velocity = -self.velocity
-
     def collide(self, mask, x=0, y=0):
-        car_mask = pygame.mask.from_surface(self.image)
+        car_mask = pygame.mask.from_surface(self.rotated_image)
         offset = (int(self.position.x - x), int(self.position.y - y))
         poi = mask.overlap(car_mask, offset)
         return poi
-        
+    
+
     def reset(self):
         self.velocity = Vector2(0.0, 0.0)
         self.acceleration = 0.0
@@ -192,7 +198,7 @@ class Player(pygame.sprite.Sprite):
 
     def get_data(self):
         distance = self.distance
-        return_values = [0, 0, 0, 0, 0]
+        return_values = [0, 0, 0, 0, 0, self.get_magnitude(self.velocity)]
         for i, radar in enumerate(distance):
             return_values[i] = int(distance[1] / 30)
 
@@ -206,11 +212,12 @@ class Player(pygame.sprite.Sprite):
     
 
     def get_reward(self):
-        return self.dist_travelled / (CAR_SIZE_X / 2)
+        return max(self.velocity.x, self.velocity.y) / 10
     
 
+    def get_magnitude(self, vector : Vector2):
+        return (vector.x**2 + vector.y**2)**0.5 
     
-    # TODO should add Lap counter    
 
 
 
