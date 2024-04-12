@@ -42,7 +42,7 @@ Maps = { "Oval" : ["src/assets/imgs/Oval_track.png","src/assets/imgs/Oval_track.
       "F100" : ["src/assets/imgs/F100.png", "src/assets/imgs/F100.png", pygame.Vector2(2000, 450)]
 	}
 
-Current_Track = "F100"
+Current_Track = "Oval"
 
 WIDTH = 1280
 HEIGHT = 720
@@ -72,8 +72,6 @@ def run_simulation(genomes, config):
         cars = []
 
         # Initialize PyGame And The Display
-        # pygame.init()
-        # screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
         # For All Genomes Passed Create A New Neural Network
         global current_generation
@@ -122,7 +120,6 @@ def run_simulation(genomes, config):
             index = list(Maps.keys()).index(Current_Track)
             index = (index+1)%len(Maps)
             Current_Track = list(Maps.keys())[index]
-        Current_Track = "F100"
 
         # Simple Counter To Roughly Limit Time (Not Good Practice)
         counter = 0
