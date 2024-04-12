@@ -18,6 +18,17 @@ We have simulated a self driving car using NEAT algorithm
 + based on laps covered and distance travelled.
 
 
+
 ### Performance
 
 ### Elimination of Species
+
+New Reard function: $$Reward = D + \sum_{each frame} L * Lap Reward $$
+
+## Inputs
+1. Ray cast 1(Front)
+2. Ray cast 2(Front-right)
+3. Ray cast 3(Front-left)
+4. Ray cast 4(Right)
+5. Ray cast 5(Left)
+6. Speed of the car
