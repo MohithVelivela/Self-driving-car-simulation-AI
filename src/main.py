@@ -269,7 +269,7 @@ def manual_play():
 
 if __name__ == "__main__":
     
-    human = True
+    human = False
 
     if human:
         manual_play()
