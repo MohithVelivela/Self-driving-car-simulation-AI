@@ -23,7 +23,9 @@ We have simulated a self driving car using NEAT algorithm
 
 ### Elimination of Species
 
-New Reard function: $$Reward = D + \sum_{each frame} L * Lap Reward $$
+## Reward Function
+
+$$Reward = D + \sum_{each frame} L * Lap Reward $$
 
 ## Inputs
 1. Ray cast 1(Front)
@@ -32,3 +34,8 @@ New Reard function: $$Reward = D + \sum_{each frame} L * Lap Reward $$
 4. Ray cast 4(Right)
 5. Ray cast 5(Left)
 6. Speed of the car
+##outputs
+1. Steering value
+2. Acceleration value
+
+
