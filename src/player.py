@@ -13,10 +13,8 @@ class Player(pygame.sprite.Sprite):
 
         # Assigning all the player variable and initial setup
         self.image = pygame.image.load(image)
-        #print(self.image.get_width())
         self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.2), 
                                                         int(self.image.get_height() * 0.2)))
-        #print(self.image.get_width())
         self.position = Vector2(x, y)
         self.velocity = Vector2(0.0, 0.0)
         self.angle = angle
@@ -73,7 +71,7 @@ class Player(pygame.sprite.Sprite):
         print("len is 5")"""
     
     def draw(self,screen, offset : Vector2):
-        #self.draw_radar(screen, offset) #OPTIONAL FOR SENSORS
+        #self.draw_radar(screen, offset)                    #OPTIONAL TO DISPLAY SENSORS
         screen.blit(self.rotated_image, self.position - offset) # Draw Sprite
         
 
@@ -94,7 +92,6 @@ class Player(pygame.sprite.Sprite):
 
         for angle_offset in range(-90, 120, 45):
             self.cast_rays(track_border, offset_angle = angle_offset)
-        #self.draw_radar(screen)
         
 
         self.velocity += (self.acceleration * dt, 0)
@@ -106,7 +103,6 @@ class Player(pygame.sprite.Sprite):
         else:
             angular_velocity = 0    
             
-        #self.move(dt)
         # Calculate distance travelled
         self.dist_travelled += self.get_magnitude(self.velocity)
         # Drawing the player
@@ -117,19 +113,9 @@ class Player(pygame.sprite.Sprite):
         self.position += self.velocity.rotate(-self.angle) * dt
         self.angle += degrees(angular_velocity) * dt
         self.rect = rect
-
-        #pygame.draw.rect(screen, (0, 255, 0), self.rect)
-        #screen.blit(rotated, self.rect)
 	
         if self.collide(track_border_mask):
-            font = pygame.font.Font(None, 72)
-            #self.reset()
-            #self.position = Vector2(500, 800)  
-            #screen.blit(font.render("Game Over! Better Luck Next time", True, (255, 0, 0)), (600, 500))
             self.alive = False
-            #time.sleep(1)
-            
-            #self.bounce()
         
 
         start_collide_poi = self.collide(start_mask, *offset)

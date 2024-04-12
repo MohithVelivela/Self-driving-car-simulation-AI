@@ -77,6 +77,7 @@ def run_simulation(genomes, config):
         global current_generation
         global Current_Track
         global Best_Fitness
+
         # Calculating how long to run this generation
         generation_time = min(BASE_TIME + current_generation * 10, MAX_TIME)
         if Current_Track == "Endless" or Current_Track == "F100":
@@ -100,6 +101,7 @@ def run_simulation(genomes, config):
         start_rect.centery = start_pos.y
 
 
+        # Creating cars for this generation
         for i, g in genomes:
             net = neat.nn.FeedForwardNetwork.create(g, config)
             nets.append(net)
@@ -107,21 +109,19 @@ def run_simulation(genomes, config):
 	    	
             cars.append(Player(start_pos.x, start_pos.y, "src/assets/imgs/red-car.png"))
 
-        # Clock Settings
         # Font Settings & Loading Map
         clock = pygame.time.Clock()
         generation_font = pygame.font.SysFont("Arial", 30)
         alive_font = pygame.font.SysFont("Arial", 20)
         
         game_map = pygame.image.load(track_image_path).convert() # Convert Speeds Up A Lot
-        #print("init")
 
         if current_generation % 5 == 0:
             index = list(Maps.keys()).index(Current_Track)
             index = (index+1)%len(Maps)
             Current_Track = list(Maps.keys())[index]
 
-        # Simple Counter To Roughly Limit Time (Not Good Practice)
+        # Simple Counter To Roughly Limit Time
         counter = 0
 
         while True: 
@@ -147,14 +147,12 @@ def run_simulation(genomes, config):
             # Increase Fitness If Yes And Break Loop If Not
             still_alive = 0
             best_car : Player = cars[0]
-            best_car_ind = 0
             max_dist = 0.0
             for i, car in enumerate(cars):
                 if car.is_alive(track_border_mask):
                     if max_dist < car.dist_travelled:
                         max_dist = car.dist_travelled
                         best_car = car
-                        best_car_ind = i
                         Best_Fitness = max(Best_Fitness,car.get_reward())
                     still_alive += 1
                     car.update(screen, dt, track_border, track_border_mask, start_mask, start_rect.topleft)
@@ -200,74 +198,80 @@ def run_simulation(genomes, config):
             pygame.display.flip()
             pygame.display.set_caption(f'Current FPS: {str(clock.get_fps())}')
 
+def manual_play():
+    """
+    This function is to implement manually playing the game
+    """
+
+    # Initialize Pygame and the display
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+    track_border_path = Maps[Current_Track][1]
+    track_image_path = Maps[Current_Track][0]
+    start_pos = Maps[Current_Track][2]
+    track = pygame.image.load(track_image_path)
+    game_map = pygame.image.load(track_image_path)
+    track_border = pygame.image.load(track_border_path)
+    track_border_mask = pygame.mask.from_surface(track_border)
+    start = pygame.image.load("src/assets/imgs/start.png")
+    start_mask = pygame.mask.from_surface(start)
+    start_rect = start.get_rect()
+    start_rect.right = start_pos.x + + 200
+    start_rect.centery = start_pos.y
+
+    # Create a player car object
+    player_car = Player(start_pos.x, start_pos.y, "src/assets/imgs/red-car.png")
+
+    # Game loop for human player control
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            accelerate = 0
+            steering = 0
+
+            # Handle keyboard input for controlling the car
+            pressed = pygame.key.get_pressed()
+            if pressed[pygame.K_w]:
+                accelerate = 1
+            elif pressed[pygame.K_s]:
+                accelerate = -1
+
+            if pressed[pygame.K_a]:
+                steering = -1
+            elif pressed[pygame.K_d]:
+                steering = 1
+
+        # Update the player car
+        player_car.move(dt, steering, accelerate)
+        player_car.update(screen, dt, track_border, track_border_mask, start_mask, start_rect.topleft)
+
+        # Draw the background
+        offset = pygame.Vector2(0, 0)
+        offset.x = player_car.rect.centerx - WIDTH // 2
+        offset.y = player_car.rect.centery - HEIGHT // 2
+        screen.fill((0, 0, 0))
+        screen.blit(game_map, -offset)
+        screen.blit(start, start_rect.topleft - offset)
+
+        print(player_car.lap)
+
+        # Draw the player car
+        player_car.draw(screen, offset)
+
+        # Display the screen
+        pygame.display.flip()
+        clock.tick(60)
+
 if __name__ == "__main__":
     
     human = False
 
     if human:
-
-       # Initialize Pygame and the display
-        pygame.init()
-        screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-        track_border_path = Maps[Current_Track][1]
-        track_image_path = Maps[Current_Track][0]
-        start_pos = Maps[Current_Track][2]
-        track = pygame.image.load(track_image_path)
-        game_map = pygame.image.load(track_image_path)
-        track_border = pygame.image.load(track_border_path)
-        track_border_mask = pygame.mask.from_surface(track_border)
-        start = pygame.image.load("src/assets/imgs/start.png")
-        start_mask = pygame.mask.from_surface(start)
-        start_rect = start.get_rect()
-        start_rect.right = start_pos.x + + 200
-        start_rect.centery = start_pos.y
-
-        # Create a player car object
-        player_car = Player(start_pos.x, start_pos.y, "src/assets/imgs/red-car.png")
-
-        # Game loop for human player control
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-
-                accelerate = 0
-                steering = 0
-
-                # Handle keyboard input for controlling the car
-                pressed = pygame.key.get_pressed()
-                if pressed[pygame.K_w]:
-                    accelerate = 1
-                elif pressed[pygame.K_s]:
-                    accelerate = -1
-
-                if pressed[pygame.K_a]:
-                    steering = -1
-                elif pressed[pygame.K_d]:
-                    steering = 1
-
-            # Update the player car
-            player_car.move(dt, steering, accelerate)
-            player_car.update(screen, dt, track_border, track_border_mask, start_mask, start_rect.topleft)
-
-            # Draw the background
-            offset = pygame.Vector2(0, 0)
-            offset.x = player_car.rect.centerx - WIDTH // 2
-            offset.y = player_car.rect.centery - HEIGHT // 2
-            screen.fill((0, 0, 0))
-            screen.blit(game_map, -offset)
-            screen.blit(start, start_rect.topleft - offset)
-
-            print(player_car.lap)
-
-            # Draw the player car
-            player_car.draw(screen, offset)
-
-            # Display the screen
-            pygame.display.flip()
-            clock.tick(60)
+        manual_play()
     else:
         # Load Config
         config_path = "src/config.txt"
@@ -288,3 +292,4 @@ if __name__ == "__main__":
 
         # population.reporters.reporters[1].save_genome_fitness()
         population.reporters.reporters[1].save()
+
