@@ -233,6 +233,9 @@ def manual_play():
             accelerate = 0
             steering = 0
 
+            if not player_car.alive:
+                pygame.quit()
+
             # Handle keyboard input for controlling the car
             pressed = pygame.key.get_pressed()
             if pressed[pygame.K_w]:
@@ -257,8 +260,6 @@ def manual_play():
         screen.blit(game_map, -offset)
         screen.blit(start, start_rect.topleft - offset)
 
-        print(player_car.lap)
-
         # Draw the player car
         player_car.draw(screen, offset)
 
@@ -268,7 +269,7 @@ def manual_play():
 
 if __name__ == "__main__":
     
-    human = False
+    human = True
 
     if human:
         manual_play()
