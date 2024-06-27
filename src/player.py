@@ -154,7 +154,7 @@ class Player(pygame.sprite.Sprite):
                 if dt != 0:
                     self.acceleration = -self.velocity.x / dt
         self.acceleration = max(-self.max_acceleration, min(self.acceleration, self.max_acceleration))
-
+#loops
         # TODO: Replace with one equation
         if abs(self.last_steer - steering) > 0.2:
             self.punish = 1
